@@ -14,10 +14,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 import qr as qrlib  # noqa: E402
+import sites  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "qr"
-MENU_URL = "https://gg76sgyhmc-jpg.github.io/Moha/usta-ghazi/menu.pdf"
+MENU_URL = sites.url("usta-ghazi", "menu.pdf")
 
 INK = "#101010"    # the black band on the menu
 CREAM = "#FBF5EC"  # the menu's paper
@@ -38,6 +39,10 @@ def main() -> None:
 
     got = qrlib.verify(png_path, MENU_URL)
     print(f"decoded  {got}\nverify   OK — scans back to the exact URL", file=sys.stderr)
+
+    foot = sites.display("usta-ghazi", "menu.pdf")
+    if sites.stamp_card(OUT / "card.html", foot):
+        print(f"card     footer restamped to {foot} — re-export card.pdf", file=sys.stderr)
     print(f"wrote    qr/menu-qr.png ({png_path.stat().st_size/1024:.0f} KB), qr/menu-qr.svg",
           file=sys.stderr)
 

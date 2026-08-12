@@ -16,10 +16,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 import qr as qrlib  # noqa: E402
+import sites  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "qr"
-LINKS_URL = "https://gg76sgyhmc-jpg.github.io/Moha/"
+LINKS_URL = sites.root("raham")
 
 INK = "#151D15"    # the deep green of their boards — 98.9% of the supplied art
 CREAM = "#F3F0D7"  # the cream type on those same boards
@@ -44,6 +45,10 @@ def main() -> None:
 
     got = qrlib.verify(png_path, LINKS_URL)
     print(f"decoded  {got}\nverify   OK — scans back to the exact URL", file=sys.stderr)
+
+    foot = sites.display("raham")
+    if sites.stamp_card(OUT / "card.html", foot):
+        print(f"card     footer restamped to {foot} — re-export card.pdf", file=sys.stderr)
     print(f"wrote    qr/links-qr.png ({png_path.stat().st_size/1024:.0f} KB), qr/links-qr.svg",
           file=sys.stderr)
 
