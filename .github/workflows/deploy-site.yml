@@ -1,8 +1,14 @@
 name: Deploy salon site
 
 # The site is a static folder, so there is nothing to compile — the job just
-# stages site/ and hands it to Pages. `configure-pages` turns Pages on the
-# first time it runs, so no manual repository setting is needed.
+# stages site/ and hands it to Pages.
+#
+# Pages itself has to be switched on once by a human, under
+# Settings -> Pages -> Source: GitHub Actions. actions/configure-pages can do
+# that in principle, but only with a token holding repository admin, which
+# GITHUB_TOKEN never is — it fails with "Resource not accessible by
+# integration". Since the page's asset paths are relative, that action's only
+# other job (resolving the base path) is not needed here, so it is left out.
 
 on:
   push:
@@ -47,10 +53,6 @@ jobs:
           # Anything else on the domain lands on the site rather than a 404 page.
           cp site/index.html _site/404.html
           du -sh _site
-
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
