@@ -50,7 +50,8 @@ Redesign of the Usta Ghazi Shawarma menu, in [`menu/`](menu/):
 | `menu/index.html` | The menu — one self-contained file, no network needed |
 | `menu/usta-ghazi-menu.pdf` | Print-ready A4, 2 pages |
 | `menu/template.html` | Layout and design tokens |
-| `menu/logo.svg` | The emblem — **replace with the restaurant's own logo file** |
+| `menu/logo.svg` | The restaurant's logo, inlined into both sheets |
+| `menu/logo.png` | The cleaned-up logo bitmap |
 | `menu/build.py` | Menu data (prices live here) + build step |
 | `menu/fonts.css` | Cairo + Tajawal, inlined as base64 |
 
@@ -64,9 +65,16 @@ Both sheets are laid out to fill exactly one A4 page each (1123px at 96dpi),
 so printing gives two pages with no overflow. Open `index.html` and print to
 PDF to regenerate the PDF.
 
-The emblem in `menu/logo.svg` is traced from the existing menu artwork, not the
-original file. Drop the real logo in as `menu/logo.svg` (or wrap a PNG in
-`<image href="data:image/png;base64,...">`) and re-run the build — it is inlined
-into both sheets from that one file.
+### The logo
+
+`menu/logo.svg` carries the restaurant's own mark, recovered from the supplied
+artwork by `tools/extract_logo.py` (removes the menu background around it) and
+`tools/enhance_logo.py` (upscales 4x and restores the flat cream/red the JPEG
+had smeared). The mark itself is not redrawn — shapes, proportions and
+letterforms are the original.
+
+Detail is still bounded by the 93x104 px source. When the original vector or
+high-resolution logo turns up, replace `menu/logo.svg` with it and re-run the
+build; both sheets are inlined from that one file.
 
 To refresh the embedded fonts, re-run `tools/embed_fonts.py` (needs network).
