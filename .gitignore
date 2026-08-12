@@ -4,3 +4,4 @@ __pycache__/
 .env.local
 site/_src_images/
 raham/_src/
+raham/qr/card.built.html

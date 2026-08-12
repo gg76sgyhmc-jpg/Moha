@@ -136,3 +136,28 @@ rather than shipping `@LIKE_THIS@` to the page.
 
 `raham/_src/` (the original full-size JPEGs, ~8.8MB) is not tracked. The
 optimised WebP set in `assets/` is 0.31MB and is what the pages use.
+
+## QR code
+
+`raham/qr/` holds a code that opens the links page at
+`https://gg76sgyhmc-jpg.github.io/Moha/`.
+
+| File | Use |
+|------|-----|
+| `links-qr.svg` | Print at any size — window sticker, table, cup sleeve. |
+| `links-qr.png` | Sending, social, screens. |
+| `card.html` / `card.pdf` | A6 table card, in the same palette and type as the page. |
+
+```bash
+python3 raham/build_qr.py    # regenerate; fails unless the result decodes
+```
+
+The code is the café's deep green on their cream — brand colours that also keep
+the polarity a scanner expects. Inverting it to cream-on-green would match the
+page more literally and scan far worse, which is a bad trade on something
+printed and stuck to a wall.
+
+Sizing is measured rather than guessed: the centred mark still decoded at 19%,
+22% and 25% of the symbol width — at full size and downscaled to 40mm and 25mm
+at 300dpi — and failed at every size at 28%. It ships at 22%. The finished card
+was then scanned back at 148mm, 105mm and 74mm tall; all three read.
