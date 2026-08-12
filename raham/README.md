@@ -3,8 +3,8 @@
 One page for the café in Al Khobar, holding two views:
 
 - the **links** view — menu, Instagram, TikTok, Snapchat, delivery, map;
-- the **menu** — 23 items across 2 categories with prices, descriptions,
-  calories and photos.
+- the **menu** — 21 items across المشروبات and الحلا, priced as the in-store
+  boards price them, with English names, descriptions, calories and photos.
 
 Tapping المنيو swaps the view on the URL hash instead of loading a second
 document, so the back button works, `#menu` is shareable, and the whole thing
@@ -34,7 +34,8 @@ local either way.
 | `raham-one-file.html` | The same page, fonts and photos inlined. One file, nothing else. |
 | `template.html` | Both views, the design tokens, and the hash router. |
 | `build.py` | Renders `template.html` + `data/` into the two outputs. |
-| `data/menu.json` | 23 items across 2 categories, as the café publishes them. |
+| `data/menu.json` | 21 items, transcribed from the in-store boards. |
+| `build_menu_data.py` | Rebuilds that file from the boards, carrying photos across. |
 | `data/brand.json` | Links, rating, map, and the phone slot. |
 | `assets/` | Logo, menu photos, webfonts. |
 | `build_assets.py` | Trims the logo and re-encodes photos to WebP. |
@@ -46,7 +47,8 @@ Nothing here is written to fill space. The café's own listings were the source:
 
 | Fact | Source |
 |------|--------|
-| 23 menu items: names, prices, descriptions, calories, photos | HungerStation vendor record |
+| 21 menu items: Arabic and English names, prices | the café's printed in-store menu boards |
+| Descriptions, calorie figures, photos | HungerStation vendor record, matched by item |
 | Logo and cover photograph | HungerStation vendor record |
 | Rating 4.7 from 249 reviews | HungerStation vendor record |
 | Instagram, TikTok, Snapchat | the café's public accounts |
@@ -85,9 +87,21 @@ The palette is the café's own, measured rather than chosen:
 
 | Token | Value | Where it came from |
 |-------|-------|--------------------|
-| `--sage` | `#A3AE84` | the green behind the logo's calligraphy — 70% of the logo file's pixels |
-| `--cream` | `#F3EEC6` | the ink of that same calligraphy |
-| `--coffee` | `#4F3629` | quantised from their cup photograph |
+| `--ink-900` | `#151D15` | the deep green of their menu boards — 98.9% of the supplied artwork's pixels |
+| `--cream` | `#F3F0D7` | the cream type on those same boards |
+| `--sage` | `#A3AE84` | the green behind the logo's calligraphy, kept as the accent |
+
+Both views run cream on the deep green, which is how their printed menu reads.
+
+## Prices
+
+The boards are the price of record. The delivery listing carries a markup —
+قهوة اليوم is 5 in-store and 7 on delivery — so the menu footer says so rather
+than letting a visitor arrive expecting the wrong number.
+
+Five items on the delivery listing are not on the boards and are not shown:
+بوكس القهوه، كرانشي كيك، رمان تشوكلت بار، بستاشيو تشوكلت بار، تشيز كيك مدريد.
+Three board items have no photo on file: براونيز، كندر كنافة، كرات الطاقه.
 
 The logo is used exactly as supplied. `build_assets.py` only trims it to its own
 edges; `logo-mark.webp` is the same mark with the sage keyed out, for the places

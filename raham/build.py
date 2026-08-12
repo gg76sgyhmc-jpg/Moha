@@ -49,9 +49,15 @@ def icon(key: str, size: int = 20, fill: str = "none", sw: float = 1.7) -> str:
 
 
 def money(v) -> str:
-    """Prices arrive as '7.0' / '16.25'; keep the halalas only when they exist."""
-    f = float(v)
-    return f"{f:.2f}".rstrip("0").rstrip(".")
+    """Print the price exactly as the menu board does.
+
+    The boards write "9.90", not "9.9" — halalas are shown to two places when
+    they are shown at all — so a source string is passed through untouched and
+    only a bare float gets formatted.
+    """
+    if isinstance(v, str):
+        return v.strip()
+    return f"{float(v):.2f}".rstrip("0").rstrip(".")
 
 
 def slug(s: str) -> str:
@@ -110,10 +116,13 @@ def menu_parts(brand: dict, menu: list) -> tuple[str, str]:
                    if it.get("calories") else "")
             desc = (f'<p class="item__desc">{escape(it["desc"])}</p>'
                     if it.get("desc") else "")
+            en = (f'<p class="item__en">{escape(it["name_en"])}</p>'
+                  if it.get("name_en") else "")
             cards.append(f'''        <article class="item rv">
           <div class="item__media">{media}</div>
           <div class="item__body">
             <h3 class="item__name">{escape(it['name'])}</h3>
+            {en}
             {desc}
             <div class="item__foot">
               <p class="item__price">{money(it['price'])}<small>ر.س</small></p>
@@ -122,11 +131,14 @@ def menu_parts(brand: dict, menu: list) -> tuple[str, str]:
           </div>
         </article>''')
 
+        en = (f'<span class="en">{escape(cat["name_en"])}</span>'
+              if cat.get("name_en") else "")
         sections.append(f'''    <section class="sec" id="{sid}">
       <div class="sec__head rv">
         <h2>{escape(cat['name'])}</h2>
-        <span>{len(cat['items'])} صنف</span>
+        {en}
         <span class="sec__rule"></span>
+        <span class="sec__n">{len(cat['items'])} صنف</span>
       </div>
       <div class="grid">
 {chr(10).join(cards)}
