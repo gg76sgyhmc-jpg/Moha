@@ -1,5 +1,17 @@
 # Moha
 
+**Live:** https://gg76sgyhmc-jpg.github.io/Moha/
+
+| URL | Page |
+|-----|------|
+| [`/`](https://gg76sgyhmc-jpg.github.io/Moha/) | قهوة رهم — links |
+| [`/menu.html`](https://gg76sgyhmc-jpg.github.io/Moha/menu.html) | قهوة رهم — menu |
+| [`/elegance/`](https://gg76sgyhmc-jpg.github.io/Moha/elegance/) | Elegance Bar Ladies Salon |
+
+Pages serves the `gh-pages` branch, which the workflow in
+`.github/workflows/deploy-site.yml` rebuilds and force-pushes on every change to
+`raham/` or `site/`. That branch is build output — never edit it by hand.
+
 ## Skills
 
 ### ui-ux-pro-max

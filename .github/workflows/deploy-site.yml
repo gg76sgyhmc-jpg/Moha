@@ -1,14 +1,13 @@
-name: Deploy salon site
+name: Publish to GitHub Pages
 
-# The site is a static folder, so there is nothing to compile — the job just
-# stages site/ and hands it to Pages.
+# Pages here serves the `gh-pages` branch (classic branch source), which GitHub
+# enabled by itself when that branch first appeared. The Actions source was not
+# an option: turning Pages on through actions/configure-pages needs a token with
+# repository admin, which GITHUB_TOKEN is not.
 #
-# Pages itself has to be switched on once by a human, under
-# Settings -> Pages -> Source: GitHub Actions. actions/configure-pages can do
-# that in principle, but only with a token holding repository admin, which
-# GITHUB_TOKEN never is — it fails with "Resource not accessible by
-# integration". Since the page's asset paths are relative, that action's only
-# other job (resolving the base path) is not needed here, so it is left out.
+# So this job stages the public files and force-pushes them to gh-pages as a
+# single commit. Nothing is compiled — the sites are static, and their assets
+# are referenced relatively, so they work unchanged under the /Moha/ subpath.
 
 on:
   push:
@@ -16,47 +15,54 @@ on:
       - main
       - claude/install-ui-ux-pro-max-skill-f57b42
     paths:
+      - 'raham/**'
       - 'site/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Let a run finish rather than cancelling it: a half-published site is worse
-# than a slightly stale one.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Stage the public files
         run: |
           set -euo pipefail
-          mkdir -p _site
-          cp site/index.html _site/
-          cp site/standalone.html _site/
-          cp -r site/assets _site/assets
-          # Pages runs Jekyll by default, which would drop any path segment
-          # starting with an underscore.
-          touch _site/.nojekyll
-          # Anything else on the domain lands on the site rather than a 404 page.
-          cp site/index.html _site/404.html
-          du -sh _site
+          rm -rf _deploy
+          mkdir -p _deploy/elegance
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
+          # Raham sits at the root; the salon site alongside it.
+          cp raham/index.html raham/menu.html _deploy/
+          cp -r raham/assets _deploy/assets
+          cp site/index.html site/standalone.html _deploy/elegance/
+          cp -r site/assets _deploy/elegance/assets
 
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          # Without this Pages runs Jekyll, which drops underscore-prefixed paths.
+          touch _deploy/.nojekyll
+          # Any unknown URL lands on the links page rather than a GitHub 404.
+          cp raham/index.html _deploy/404.html
+          du -sh _deploy
+
+      - name: Push to gh-pages
+        run: |
+          set -euo pipefail
+          cd _deploy
+          git init -q .
+          git checkout -q -b gh-pages
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publish ${GITHUB_SHA::7}"
+          # A single-commit force push: this branch is build output, so its
+          # history is noise and would grow without bound.
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
