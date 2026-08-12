@@ -1,0 +1,29 @@
+<!-- ────────────────────────────────────────────────────────────────────────────
+     Usta Ghazi emblem — redrawn from the existing menu artwork: cream ring,
+     red field, the shawarma spit, and the "USta Ghazi" wordmark.
+
+     REPLACE THIS FILE with the restaurant's own logo (SVG preferred, or an
+     <image href="data:image/png;base64,..."> wrapper for a PNG) and re-run
+     `python3 menu/build.py` — it is inlined into both sheets from here, so
+     nothing else needs editing.
+     ──────────────────────────────────────────────────────────────────────── -->
+<svg class="logo" viewBox="0 0 120 120" role="img" aria-label="شعار أسطا غازي — Usta Ghazi">
+  <circle cx="60" cy="60" r="58" fill="#FBF5EC"/>
+  <circle cx="60" cy="60" r="53" fill="#C1121F"/>
+  <circle cx="60" cy="60" r="49.5" fill="none" stroke="#FBF5EC" stroke-width="1.6" opacity=".85"/>
+
+  <!-- spit: skewer through the stacked cone of meat. Kept clear of the
+       wordmark below it — the two collide if the skewer runs any longer. -->
+  <path d="M60 17v62" stroke="#FBF5EC" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="60" cy="17.5" r="3.4" fill="#FBF5EC"/>
+  <path d="M60 25c8.6 0 13.6 5 15.2 12.2 1.9 8.3 1.4 17.5-1.1 24.9-1.9 5.8-7.4 9.5-14.1 9.5s-12.2-3.7-14.1-9.5c-2.5-7.4-3-16.6-1.1-24.9C46.4 30 51.4 25 60 25Z"
+        fill="none" stroke="#FBF5EC" stroke-width="2.4" stroke-linejoin="round"/>
+  <path d="M47.8 38.5h24.4M46.4 49h27.2M46.9 59.5h26.2" stroke="#FBF5EC" stroke-width="1.7" stroke-linecap="round" opacity=".9"/>
+
+  <!-- carving blade -->
+  <path d="M77 45.5 91 42l-1 4.6-13 2.4Z" fill="#FBF5EC" opacity=".95"/>
+
+  <text x="60" y="93" text-anchor="middle" fill="#FBF5EC"
+        font-family="Cairo, system-ui, sans-serif" font-weight="700" font-size="13"
+        letter-spacing=".2">USta Ghazi</text>
+</svg>

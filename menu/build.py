@@ -77,6 +77,12 @@ def main() -> None:
     fonts = (HERE / "fonts.css").read_text(encoding="utf-8")
     html = html.replace("/*@FONTS@*/", fonts)
 
+    # The emblem is sourced from one file so swapping in the restaurant's own
+    # artwork is a single edit; both sheets pick it up from here.
+    logo = (HERE / "logo.svg").read_text(encoding="utf-8")
+    logo = logo[logo.index("<svg") :].strip()
+    html = html.replace("<!--@LOGO@-->", logo)
+
     html = html.replace(
         "<!--@SANDWICHES@-->",
         "\n".join(item_row(*row) for row in SANDWICHES).lstrip(),
@@ -106,7 +112,7 @@ def main() -> None:
     )
 
     assert "@" not in html.split("<style>")[0], "unfilled placeholder in head"
-    for marker in ("@SANDWICHES@", "@ARABI@", "@PLATES@", "@DRINKS@", "@PIECEHEADS@", "@FONTS@"):
+    for marker in ("@SANDWICHES@", "@ARABI@", "@PLATES@", "@DRINKS@", "@PIECEHEADS@", "@FONTS@", "@LOGO@"):
         assert marker not in html, f"unfilled placeholder: {marker}"
 
     out = HERE / "index.html"

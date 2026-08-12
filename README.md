@@ -50,6 +50,7 @@ Redesign of the Usta Ghazi Shawarma menu, in [`menu/`](menu/):
 | `menu/index.html` | The menu — one self-contained file, no network needed |
 | `menu/usta-ghazi-menu.pdf` | Print-ready A4, 2 pages |
 | `menu/template.html` | Layout and design tokens |
+| `menu/logo.svg` | The emblem — **replace with the restaurant's own logo file** |
 | `menu/build.py` | Menu data (prices live here) + build step |
 | `menu/fonts.css` | Cairo + Tajawal, inlined as base64 |
 
@@ -62,5 +63,10 @@ python3 menu/build.py     # rewrites menu/index.html
 Both sheets are laid out to fill exactly one A4 page each (1123px at 96dpi),
 so printing gives two pages with no overflow. Open `index.html` and print to
 PDF to regenerate the PDF.
+
+The emblem in `menu/logo.svg` is traced from the existing menu artwork, not the
+original file. Drop the real logo in as `menu/logo.svg` (or wrap a PNG in
+`<image href="data:image/png;base64,...">`) and re-run the build — it is inlined
+into both sheets from that one file.
 
 To refresh the embedded fonts, re-run `tools/embed_fonts.py` (needs network).
