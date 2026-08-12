@@ -186,6 +186,18 @@ def main() -> None:
     print(f"raham-one-file.html {one.stat().st_size/1024/1024:6.1f} MB  (self-contained)",
           file=sys.stderr)
 
+    # Body-only copy, for hosts that supply their own document skeleton and so
+    # cannot use the <html dir="rtl"> this page reads right-to-left from.
+    pv = re.sub(r"^.*?<title>", "<title>", one.read_text(encoding="utf-8"), flags=re.S)
+    pv = pv.replace("</head>\n", "", 1).replace("<body>", "", 1)
+    pv = pv.replace("</body>\n</html>", "").rstrip() + "\n"
+    pv = pv.replace("<style>", "<style>\n:root, body { direction: rtl; }\n", 1)
+    pv = ('<script>document.documentElement.setAttribute("dir","rtl");'
+          'document.documentElement.setAttribute("lang","ar");</script>\n' + pv)
+    (HERE / "preview.html").write_text(pv, encoding="utf-8")
+    print(f"preview.html        {(HERE / 'preview.html').stat().st_size/1024/1024:6.1f} MB  (body-only)",
+          file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()
