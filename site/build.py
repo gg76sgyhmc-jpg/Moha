@@ -192,6 +192,23 @@ def main() -> None:
     print(f"standalone.html {sa_path.stat().st_size/1024/1024:6.1f} MB  (assets inlined)",
           file=sys.stderr)
 
+    # ── preview.html: the same inlined page as body content only, for hosts
+    #    that supply their own document skeleton. Those hosts own <html>, so
+    #    RTL is asserted from the stylesheet and re-asserted on the root
+    #    element at parse time.
+    pv = re.sub(r"^.*?<title>", "<title>", sa, flags=re.S)
+    pv = pv.replace("Elegance Bar Ladies Salon — إيليجانس بار صالون سيدات",
+                    "Elegance Bar Ladies Salon", 1)
+    pv = pv.replace("</head>\n", "", 1).replace("<body>", "", 1)
+    pv = pv.replace("</body>\n</html>", "").rstrip() + "\n"
+    pv = pv.replace("<style>", "<style>\n:root, body { direction: rtl; }\n", 1)
+    pv = ('<script>document.documentElement.setAttribute("dir","rtl");'
+          'document.documentElement.setAttribute("lang","ar");</script>\n' + pv)
+    pv_path = HERE / "preview.html"
+    pv_path.write_text(pv, encoding="utf-8")
+    print(f"preview.html    {pv_path.stat().st_size/1024/1024:6.1f} MB  (body-only)",
+          file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()
