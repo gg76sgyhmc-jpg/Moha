@@ -78,3 +78,17 @@ high-resolution logo turns up, replace `menu/logo.svg` with it and re-run the
 build; both sheets are inlined from that one file.
 
 To refresh the embedded fonts, re-run `tools/embed_fonts.py` (needs network).
+
+## Elegance Bar — website
+
+A rebuild of the Elegance Bar Ladies Salon site, in [`site/`](site/). Open
+`site/index.html`, or serve the folder:
+
+```bash
+python3 -m http.server -d site 8080
+```
+
+All 78 services, their prices, durations, photos and the booking policies are
+pulled from the salon's own live booking profile — see
+[`site/README.md`](site/README.md) for the data source, rebuild steps, and the
+details the source data does not carry.

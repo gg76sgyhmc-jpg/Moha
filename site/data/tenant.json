@@ -1,0 +1,122 @@
+[
+ "ShallowReactive",
+ {
+  "data": [
+   "ShallowReactive",
+   {}
+  ],
+  "state": {
+   "$snuxt-session": {
+    "id": "40fd82cc-a57a-4bb5-b6b5-a779bbb9a278"
+   },
+   "$snuxt-auth-ready": true,
+   "$snuxt-i18n-meta": {},
+   "$sviewportState": "mobile",
+   "$stenant": {
+    "branch": {
+     "id": 80,
+     "slug": "s-lon-h-n-l-n-k-lns-y",
+     "lat": "26.3072482",
+     "lng": "50.2242517",
+     "description": "",
+     "name": "Elegance bar ladies salon",
+     "address": "Elegance bar ladies salon",
+     "phone": "0597934869",
+     "workingHours": "لا توجد مواعيد عمل متاحة.",
+     "type": "all",
+     "cr": "7034562152",
+     "tax": "0"
+    },
+    "branches": [
+     {
+      "id": 80,
+      "label": "Elegance bar ladies salon",
+      "slug": "s-lon-h-n-l-n-k-lns-y",
+      "link": "https://s-lon-h-n-l-n-k-lns-y.naeem.sa"
+     }
+    ],
+    "config": {
+     "enableOnlineBooking": "1",
+     "showServiceProvider": "1",
+     "AvailableDays": "15",
+     "site.bookingconfirmation": "0",
+     "site.paymentbookingconfirmation": "0",
+     "general_instructions": "- في حال التأخير لمدة 10 دقائق، يتم إلغاء الموعد.  ـ دفع العربون غير مسترد لتاكييد الحجز   - لايمكن تغيير موعد الحجز او الغاءه  -يرجى الحظور قبل الموعد ب15دقيقه لضمان تقديم الخدمه الوقت المحدد",
+     "welcoming_msg": "مرحبا بك في صالون elegance bar نتشرف بخدمتك ونتطلع لاستقبالك لتجربة جمالية مميزة",
+     "allow_home_services_online": "0",
+     "disableFullPayment": "1",
+     "online_slots_timing": "15",
+     "showDurationInOnline": "1",
+     "allowRefundDownPayment": "0",
+     "start_time": "14:00",
+     "end_time": "17:00",
+     "bookingEndDate": null,
+     "hasHomeService": false,
+     "canBook": true,
+     "canBookGifts": true,
+     "isHomeServiceDefault": 0,
+     "cancelBookingMax": 0,
+     "changeBookingMax": 0,
+     "showWhatsappFloatingButton": 0
+    },
+    "primaryColor": "#13445c",
+    "secondaryColor": "#0F0",
+    "slogan": "",
+    "icon": null,
+    "logo": "https://partners.naeem.cg.sa/storage/branches/1701346262.jpg",
+    "socials": {
+     "twitter": null,
+     "snapchat": "https://snapchat.com/t/fYLXSVnd",
+     "instagram": "https://www.instagram.com/elegancebar1",
+     "skype": null,
+     "whatsapp": null,
+     "facebook": null,
+     "tiktok": "https://www.tiktok.com/@elegancebar"
+    },
+    "banner": [],
+    "footerText": null
+   },
+   "$sisHeadless": false
+  },
+  "once": [
+   "Set"
+  ],
+  "_errors": [
+   "ShallowReactive",
+   {}
+  ],
+  "serverRendered": true,
+  "path": "/",
+  "isCached": false,
+  "pinia": {
+   "cartStore": {
+    "cart": {
+     "services": [],
+     "gifts": [],
+     "offer": {
+      "item": null,
+      "dates": [],
+      "providers": [],
+      "timeSlots": []
+     }
+    },
+    "bookingDate": "2026-08-12",
+    "giftRecipient": {
+     "name": "",
+     "phone": "",
+     "message": ""
+    },
+    "currentAddress": null,
+    "orderMinPrice": null,
+    "currentOrderId": null
+   },
+   "userStore": {
+    "user": {}
+   },
+   "authStore": {
+    "isLoginModalOpen": false,
+    "token": ""
+   }
+  }
+ }
+]
