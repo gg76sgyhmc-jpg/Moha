@@ -7,6 +7,7 @@
 | [`/`](https://gg76sgyhmc-jpg.github.io/Moha/) | قهوة رهم — links |
 | [`/#menu`](https://gg76sgyhmc-jpg.github.io/Moha/#menu) | قهوة رهم — menu (same page) |
 | [`/elegance/`](https://gg76sgyhmc-jpg.github.io/Moha/elegance/) | Elegance Bar Ladies Salon |
+| [`/usta-ghazi/menu.pdf`](https://gg76sgyhmc-jpg.github.io/Moha/usta-ghazi/menu.pdf) | أسطا غازي — menu PDF (the QR's destination) |
 
 Pages serves the `gh-pages` branch, which the workflow in
 `.github/workflows/deploy-site.yml` rebuilds and force-pushes on every change to
@@ -90,6 +91,27 @@ high-resolution logo turns up, replace `menu/logo.svg` with it and re-run the
 build; both sheets are inlined from that one file.
 
 To refresh the embedded fonts, re-run `tools/embed_fonts.py` (needs network).
+
+### QR code
+
+`menu/qr/` holds a QR that opens the menu PDF at
+`https://gg76sgyhmc-jpg.github.io/Moha/usta-ghazi/menu.pdf`, published by the
+deploy workflow.
+
+| File | Use |
+|------|-----|
+| `menu-qr.svg` | Print at any size — signage, stickers, the menu itself. |
+| `menu-qr.png` | Sending, social, screens. |
+| `card.html` / `card.pdf` | A6 table card around the code. Four fit an A4 sheet. |
+
+```bash
+python3 menu/build_qr.py     # regenerate after changing the URL
+```
+
+The code is level H, so it still reads with the logo covering its middle, and
+the script decodes the finished PNG with OpenCV and fails unless it reads back
+the exact URL. If the menu ever moves, change `MENU_URL` in `build_qr.py`,
+rerun, and reprint — the code is tied to that address, not to the file.
 
 ## Elegance Bar — website
 
