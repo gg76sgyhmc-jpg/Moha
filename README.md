@@ -40,3 +40,27 @@ export API_KEY_21ST="your-key-here"
 Put it in your shell profile (or a git-ignored `.env`) rather than committing it. Without
 it, `claude mcp list` reports `Missing environment variables: API_KEY_21ST` and the server
 returns HTTP 401.
+
+## Menu — أسطا غازي
+
+Redesign of the Usta Ghazi Shawarma menu, in [`menu/`](menu/):
+
+| File | What it is |
+|------|-----------|
+| `menu/index.html` | The menu — one self-contained file, no network needed |
+| `menu/usta-ghazi-menu.pdf` | Print-ready A4, 2 pages |
+| `menu/template.html` | Layout and design tokens |
+| `menu/build.py` | Menu data (prices live here) + build step |
+| `menu/fonts.css` | Cairo + Tajawal, inlined as base64 |
+
+To change a price, edit the tables at the top of `menu/build.py`, then:
+
+```bash
+python3 menu/build.py     # rewrites menu/index.html
+```
+
+Both sheets are laid out to fill exactly one A4 page each (1123px at 96dpi),
+so printing gives two pages with no overflow. Open `index.html` and print to
+PDF to regenerate the PDF.
+
+To refresh the embedded fonts, re-run `tools/embed_fonts.py` (needs network).
