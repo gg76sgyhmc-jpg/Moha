@@ -1,0 +1,60 @@
+name: Deploy salon site
+
+# The site is a static folder, so there is nothing to compile — the job just
+# stages site/ and hands it to Pages. `configure-pages` turns Pages on the
+# first time it runs, so no manual repository setting is needed.
+
+on:
+  push:
+    branches:
+      - main
+      - claude/install-ui-ux-pro-max-skill-f57b42
+    paths:
+      - 'site/**'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a run finish rather than cancelling it: a half-published site is worse
+# than a slightly stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage the public files
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp site/index.html _site/
+          cp site/standalone.html _site/
+          cp -r site/assets _site/assets
+          # Pages runs Jekyll by default, which would drop any path segment
+          # starting with an underscore.
+          touch _site/.nojekyll
+          # Anything else on the domain lands on the site rather than a 404 page.
+          cp site/index.html _site/404.html
+          du -sh _site
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
