@@ -40,7 +40,7 @@ jobs:
           mkdir -p _deploy/elegance
 
           # Raham sits at the root; the salon site alongside it.
-          cp raham/index.html raham/menu.html _deploy/
+          cp raham/index.html raham/raham-one-file.html _deploy/
           cp -r raham/assets _deploy/assets
           cp site/index.html site/standalone.html _deploy/elegance/
           cp -r site/assets _deploy/elegance/assets

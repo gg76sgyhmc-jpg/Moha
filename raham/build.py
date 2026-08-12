@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Render the Raham Coffee links page and menu from the café's own data.
+"""Render the Raham Coffee page from the café's own data.
+
+One document holds both views: the links list and the menu. Tapping المنيو
+swaps the view on the URL hash rather than loading a second page, so the whole
+thing is a single file to host or send.
 
 Every item, price, description, calorie figure and photo comes from
 data/menu.json; every link and business fact from data/brand.json. Both were
@@ -54,11 +58,8 @@ def slug(s: str) -> str:
     return re.sub(r"[^\w]+", "-", s, flags=re.U).strip("-")
 
 
-# ── links page ────────────────────────────────────────────────────────────────
-def build_links(brand: dict, menu: list) -> str:
-    html = (HERE / "template-links.html").read_text(encoding="utf-8")
-    html = html.replace("/*@FONTS@*/", (HERE / "fonts.css").read_text(encoding="utf-8"))
-
+# ── links view ────────────────────────────────────────────────────────────────
+def links_parts(brand: dict, menu: list) -> tuple[str, str]:
     n_items = sum(len(c["items"]) for c in menu)
     meta = []
     r = brand.get("rating")
@@ -83,16 +84,11 @@ def build_links(brand: dict, menu: list) -> str:
       <span class="row__go">{CHEVRON}</span>
     </a>''')
 
-    html = html.replace("<!--@META@-->", "\n      ".join(meta))
-    html = html.replace("<!--@LINKS@-->", "\n".join(rows).lstrip())
-    return html
+    return "\n      ".join(meta), "\n".join(rows).lstrip()
 
 
-# ── menu page ─────────────────────────────────────────────────────────────────
-def build_menu(brand: dict, menu: list) -> str:
-    html = (HERE / "template-menu.html").read_text(encoding="utf-8")
-    html = html.replace("/*@FONTS@*/", (HERE / "fonts.css").read_text(encoding="utf-8"))
-
+# ── menu view ─────────────────────────────────────────────────────────────────
+def menu_parts(brand: dict, menu: list) -> tuple[str, str]:
     photos = {p.stem for p in (HERE / "assets" / "items").glob("*.webp")}
 
     jump, sections = [], []
@@ -137,12 +133,7 @@ def build_menu(brand: dict, menu: list) -> str:
       </div>
     </section>''')
 
-    delivery = next((l["href"] for l in brand["links"] if l["key"] == "hungerstation"), "#")
-    html = html.replace("<!--@JUMP@-->", "\n".join(jump).lstrip())
-    html = html.replace("<!--@SECTIONS@-->", "\n".join(sections).lstrip())
-    html = html.replace("@N_ITEMS@", str(sum(len(c["items"]) for c in menu)))
-    html = html.replace("@DELIVERY@", delivery)
-    return html
+    return "\n".join(jump).lstrip(), "\n".join(sections).lstrip()
 
 
 def inline_assets(html: str) -> str:
@@ -161,26 +152,38 @@ def main() -> None:
     menu = json.loads((HERE / "data" / "menu.json").read_text(encoding="utf-8"))
 
     if brand.get("phone"):
-        # A phone was not published on any listing we could reach; when one is
-        # added to brand.json it becomes a link row and a tel: on both pages.
+        # No phone was published on any reachable listing. Setting one in
+        # brand.json is all it takes: the row and its tel: link appear here.
         brand["links"].insert(1, {
             "key": "phone", "href": "tel:" + re.sub(r"\D", "", brand["phone"]),
             "label_ar": "اتصل بنا", "sub_ar": brand["phone"], "icon": "phone",
         })
 
-    for name, html in (("index.html", build_links(brand, menu)),
-                       ("menu.html", build_menu(brand, menu))):
-        left = re.findall(r"@[A-Z_]+@|<!--@[A-Z]+@-->", html)
-        assert not left, f"{name}: unfilled placeholders {set(left)}"
-        (HERE / name).write_text(html, encoding="utf-8")
-        print(f"{name:12} {(HERE / name).stat().st_size/1024:6.0f} KB", file=sys.stderr)
+    meta, rows = links_parts(brand, menu)
+    jump, sections = menu_parts(brand, menu)
+    delivery = next((l["href"] for l in brand["links"] if l["key"] == "hungerstation"), "#")
 
-    combined = inline_assets((HERE / "index.html").read_text(encoding="utf-8"))
-    (HERE / "standalone-links.html").write_text(combined, encoding="utf-8")
-    combined_menu = inline_assets((HERE / "menu.html").read_text(encoding="utf-8"))
-    (HERE / "standalone-menu.html").write_text(combined_menu, encoding="utf-8")
-    print(f"standalone-links.html {(HERE/'standalone-links.html').stat().st_size/1024:6.0f} KB\n"
-          f"standalone-menu.html  {(HERE/'standalone-menu.html').stat().st_size/1024:6.0f} KB",
+    html = (HERE / "template.html").read_text(encoding="utf-8")
+    html = html.replace("/*@FONTS@*/", (HERE / "fonts.css").read_text(encoding="utf-8"))
+    html = html.replace("<!--@META@-->", meta)
+    html = html.replace("<!--@LINKS@-->", rows)
+    html = html.replace("<!--@JUMP@-->", jump)
+    html = html.replace("<!--@SECTIONS@-->", sections)
+    html = html.replace("@N_ITEMS@", str(sum(len(c["items"]) for c in menu)))
+    html = html.replace("@DELIVERY@", delivery)
+
+    left = re.findall(r"@[A-Z_]+@|<!--@[A-Z]+@-->", html)
+    assert not left, f"unfilled placeholders: {set(left)}"
+
+    # Hosted copy: assets stay separate files so the browser can cache them.
+    (HERE / "index.html").write_text(html, encoding="utf-8")
+    print(f"index.html          {(HERE / 'index.html').stat().st_size/1024:6.0f} KB"
+          f"  (+ assets/)", file=sys.stderr)
+
+    # The single file: fonts and every photo folded in, nothing else needed.
+    one = HERE / "raham-one-file.html"
+    one.write_text(inline_assets(html), encoding="utf-8")
+    print(f"raham-one-file.html {one.stat().st_size/1024/1024:6.1f} MB  (self-contained)",
           file=sys.stderr)
 
 

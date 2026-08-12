@@ -5,7 +5,7 @@
 | URL | Page |
 |-----|------|
 | [`/`](https://gg76sgyhmc-jpg.github.io/Moha/) | قهوة رهم — links |
-| [`/menu.html`](https://gg76sgyhmc-jpg.github.io/Moha/menu.html) | قهوة رهم — menu |
+| [`/#menu`](https://gg76sgyhmc-jpg.github.io/Moha/#menu) | قهوة رهم — menu (same page) |
 | [`/elegance/`](https://gg76sgyhmc-jpg.github.io/Moha/elegance/) | Elegance Bar Ladies Salon |
 
 Pages serves the `gh-pages` branch, which the workflow in
@@ -107,7 +107,7 @@ details the source data does not carry.
 
 ## قهوة رهم — Raham Coffee
 
-A links page and a rebuilt menu for the café in Al Khobar, in [`raham/`](raham/):
+A single page for the café in Al Khobar — links and menu in one document, in [`raham/`](raham/):
 
 ```bash
 python3 -m http.server -d raham 8080

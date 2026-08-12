@@ -20,7 +20,7 @@
   "links": [
     {
       "key": "menu",
-      "href": "menu.html",
+      "href": "#menu",
       "label_ar": "المنيو",
       "sub_ar": "المشروبات والحلويات بالأسعار",
       "icon": "cup",

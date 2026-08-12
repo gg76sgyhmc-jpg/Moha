@@ -1,12 +1,15 @@
-<script>document.documentElement.setAttribute("dir","rtl");document.documentElement.setAttribute("lang","ar");</script>
-<title>منيو قهوة رهم — Raham Coffee</title>
-<meta name="description" content="منيو قهوة رهم: المشروبات والحلويات بالأسعار — الخبر.">
-<meta name="theme-color" content="#FBF8EC">
-<meta property="og:title" content="منيو قهوة رهم">
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قهوة رهم — Raham Coffee</title>
+<meta name="description" content="قهوة رهم | Raham Coffee — الخبر. المنيو، إنستقرام، تيك توك، سناب شات، التوصيل، والموقع.">
+<meta name="theme-color" id="tc" content="#7C8A5F">
+<meta property="og:title" content="قهوة رهم — Raham Coffee">
+<meta property="og:description" content="كل روابط رهم في مكان واحد">
 <meta property="og:type" content="website">
 <style>
-:root, body { direction: rtl; }
-
 @font-face {
   font-family: 'IBM Plex Sans Arabic';
   font-style: normal;
@@ -57,13 +60,20 @@
 }
 
 
-/* ══════════════════════════════════════════════════════════════
-   Raham Coffee — menu
+/* ══════════════════════════════════════════════════════════════════════
+   Raham Coffee — one page, two views
 
-   Same tokens as the links page. The menu inverts the ground: cream
-   paper with sage as the accent, because a page of food photographs
-   and prices needs the quieter surface to do the reading.
-   ══════════════════════════════════════════════════════════════ */
+   The links view and the menu live in the same document and swap on the
+   URL hash, so tapping المنيو never leaves the page and the back button
+   still works.
+
+   The palette is lifted from the café's own material: --sage is the exact
+   green behind the logo's calligraphy (#A3AE84, 70% of that file's
+   pixels), --cream is the ink of the same calligraphy (#F3EEC6), and the
+   browns are quantised from their cup photograph. The links view runs
+   cream-on-sage, the logo's own figure/ground; the menu inverts to cream
+   paper, because photographs and prices need the quieter surface.
+   ══════════════════════════════════════════════════════════════════════ */
 :root {
   --sage:        #A3AE84;
   --sage-deep:   #7C8A5F;
@@ -71,6 +81,7 @@
   --sage-ink:    #3A4230;
 
   --cream:       #F3EEC6;
+  --cream-soft:  #FBF8EC;
   --paper:       #FBF8EC;
   --paper-2:     #F4EFDF;
 
@@ -105,22 +116,151 @@ body {
   font-weight: 300;
   font-size: 16px;
   line-height: 1.7;
-  color: var(--ink-2);
-  background: var(--paper);
   -webkit-font-smoothing: antialiased;
+
+  /* The ground follows the active view, so over-scroll never exposes the
+     other view's colour. A soft wash sized to the whole body rather than
+     fixed to the viewport — fixed attachment stops at the fold and costs
+     repaints on mobile Safari. */
+  color: var(--cream);
+  background-color: var(--sage-deep);
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, var(--sage) 0%, var(--sage-deep) 52%, var(--sage-dark) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: background-color var(--dur) var(--ease);
+}
+body.on-menu {
+  color: var(--ink-2);
+  background-color: var(--paper);
+  background-image: none;
 }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
-h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.3; color: var(--ink); }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.3; }
 p { margin: 0; }
 button { font: inherit; color: inherit; cursor: pointer; }
 
-:focus-visible { outline: 2px solid var(--sage-deep); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 6px; }
 
 .wrap { width: min(100% - 36px, 900px); margin-inline: auto; }
+.wrap--narrow { width: min(100% - 36px, 520px); margin-inline: auto; }
 
-/* ═══════════ HEADER ═══════════ */
+/* ═══════════ VIEW SWITCH ═══════════ */
+.view { display: none; }
+.view.is-on { display: block; animation: fade .34s var(--ease); }
+
+/* Without JavaScript the hash still opens the menu: :target does the same
+   job the router does, and both agree because the router pushes the hash. */
+#menu:target { display: block; }
+body:has(#menu:target) #view-links { display: none; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+
+/* ═════════════════════════════════════════════════════════
+   VIEW 1 — LINKS
+   ═════════════════════════════════════════════════════════ */
+.links-view.is-on { display: flex; }
+.links-view { min-height: 100dvh; flex-direction: column; }
+
+.top { padding-block: var(--sp-8) var(--sp-6); text-align: center; }
+
+.logo {
+  width: 168px; margin-inline: auto; margin-block-end: var(--sp-5);
+  filter: drop-shadow(0 6px 18px rgba(58,66,48,.32));
+}
+
+.name { font-size: clamp(26px, 6.4vw, 34px); letter-spacing: -.01em; color: var(--cream); }
+.name-en {
+  margin-top: var(--sp-2);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: .34em;
+  padding-inline-start: .34em;   /* offsets the trailing track, keeps it centred */
+  direction: ltr;
+  color: rgba(243,238,198,.62);
+}
+
+.meta {
+  margin-top: var(--sp-5);
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: var(--sp-2) var(--sp-3);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid rgba(243,238,198,.26);
+  border-radius: var(--r-full);
+  padding: 6px 14px;
+  font-size: 13px; font-weight: 300;
+  color: rgba(243,238,198,.9);
+}
+.pill svg { flex: none; opacity: .85; }
+.pill b { font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }
+
+.links { display: flex; flex-direction: column; gap: var(--sp-3); padding-block-end: var(--sp-7); }
+
+.row {
+  display: flex; align-items: center; gap: var(--sp-4);
+  width: 100%; min-height: 72px;
+  padding: var(--sp-3) var(--sp-4);
+  background: rgba(251,248,236,.1);
+  border: 1px solid rgba(243,238,198,.2);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(6px);
+  color: var(--cream);
+  text-align: start;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
+}
+.row:hover, .row:focus-visible {
+  background: rgba(251,248,236,.17);
+  border-color: rgba(243,238,198,.42);
+  transform: translateY(-2px);
+}
+.row:active { transform: translateY(0); }
+
+/* The menu is why most people open this page, so it is the one filled row
+   rather than a seventh outline. */
+.row--featured { background: var(--cream); border-color: var(--cream); color: var(--sage-ink); }
+.row--featured:hover, .row--featured:focus-visible { background: var(--cream-soft); border-color: var(--cream-soft); }
+.row--featured .row__ic { background: rgba(58,66,48,.1); color: var(--sage-ink); }
+.row--featured .row__sub { color: rgba(58,66,48,.66); }
+.row--featured .row__go { color: rgba(58,66,48,.5); }
+
+.row__ic {
+  flex: none;
+  width: 46px; height: 46px; border-radius: var(--r-md);
+  background: rgba(243,238,198,.14);
+  display: grid; place-items: center;
+  color: var(--cream);
+}
+.row__txt { flex: 1; min-width: 0; }
+.row__label { display: block; font-size: 16.5px; font-weight: 500; line-height: 1.35; }
+.row__sub {
+  display: block;
+  font-size: 13px; font-weight: 300; color: rgba(243,238,198,.62);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.row__go { flex: none; color: rgba(243,238,198,.45); transition: transform var(--dur) var(--ease); }
+.row:hover .row__go { transform: translateX(-4px); }   /* RTL: forward is leftward */
+
+.foot-links {
+  margin-top: auto;
+  padding-block: var(--sp-5) var(--sp-6);
+  text-align: center;
+  font-size: 12px; font-weight: 300;
+  color: rgba(243,238,198,.45);
+}
+.foot-links p + p { margin-top: 4px; }
+
+.rise { opacity: 0; transform: translateY(14px); animation: rise .6s var(--ease) forwards; }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+/* ═════════════════════════════════════════════════════════
+   VIEW 2 — MENU
+   ═════════════════════════════════════════════════════════ */
+.menu-view { color: var(--ink-2); }
+.menu-view h1, .menu-view h2, .menu-view h3 { color: var(--ink); }
+
 .hdr {
   position: sticky; inset-block-start: 0; z-index: 40;
   height: var(--head-h);
@@ -144,19 +284,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .back:hover { background: var(--paper-2); border-color: var(--sage); }
 
-/* ═══════════ HERO ═══════════ */
-.hero {
-  padding-block: var(--sp-7) var(--sp-6);
-  text-align: center;
-}
+.hero { padding-block: var(--sp-7) var(--sp-6); text-align: center; }
 .hero__mark { width: 128px; margin-inline: auto; margin-block-end: var(--sp-4); border-radius: 12px; }
 .hero h1 { font-size: clamp(28px, 6vw, 40px); letter-spacing: -.01em; }
-.hero p {
-  margin-top: var(--sp-3); font-size: 15px; color: var(--muted);
-  max-width: 46ch; margin-inline: auto;
-}
+.hero p { margin-top: var(--sp-3); font-size: 15px; color: var(--muted); max-width: 46ch; margin-inline: auto; }
 
-/* ═══════════ CATEGORY NAV ═══════════ */
 .jump {
   position: sticky; inset-block-start: var(--head-h); z-index: 30;
   background: rgba(251,248,236,.92);
@@ -177,30 +309,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease),
               border-color var(--dur) var(--ease);
 }
-.jump a:hover, .jump a.is-active {
-  background: var(--sage-deep); border-color: var(--sage-deep); color: var(--paper);
-}
-.jump a span {
-  font-size: 12px; opacity: .66;
-  font-variant-numeric: lining-nums tabular-nums;
-}
+.jump a:hover, .jump a.is-active { background: var(--sage-deep); border-color: var(--sage-deep); color: var(--paper); }
+.jump a span { font-size: 12px; opacity: .66; font-variant-numeric: lining-nums tabular-nums; }
 
-/* ═══════════ SECTIONS ═══════════ */
 .sec { padding-block: var(--sp-7); }
 .sec + .sec { border-block-start: 1px solid var(--line); }
 
 .sec__head { display: flex; align-items: baseline; gap: var(--sp-3); margin-block-end: var(--sp-5); }
 .sec__head h2 { font-size: clamp(22px, 4.4vw, 28px); }
-.sec__head span {
-  font-size: 13px; font-weight: 500; color: var(--sage-dark);
-  font-variant-numeric: lining-nums tabular-nums;
-}
+.sec__head > span { font-size: 13px; font-weight: 500; color: var(--sage-dark); font-variant-numeric: lining-nums tabular-nums; }
 .sec__rule { flex: 1; height: 1px; background: var(--line); }
 
 .grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
 
-/* ═══════════ ITEM ═══════════ */
 .item {
   display: flex; gap: var(--sp-4); align-items: stretch;
   background: var(--paper);
@@ -210,20 +332,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
               transform var(--dur) var(--ease);
 }
-.item:hover {
-  border-color: var(--sage);
-  box-shadow: 0 6px 20px rgba(90,102,68,.09);
-  transform: translateY(-2px);
-}
+.item:hover { border-color: var(--sage); box-shadow: 0 6px 20px rgba(90,102,68,.09); transform: translateY(-2px); }
 
-.item__media {
-  flex: none; width: 88px; aspect-ratio: 1; border-radius: var(--r-md);
-  overflow: hidden; background: var(--paper-2);
-}
+.item__media { flex: none; width: 88px; aspect-ratio: 1; border-radius: var(--r-md); overflow: hidden; background: var(--paper-2); }
 .item__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease); }
 .item:hover .item__media img { transform: scale(1.06); }
 
-/* No photo on file: a cup mark in the brand green rather than a grey box. */
+/* No photo on file: the brand green with a cup, not a grey box. */
 .item__media--none {
   display: grid; place-items: center;
   background: linear-gradient(160deg, var(--sage) 0%, var(--sage-deep) 100%);
@@ -237,77 +352,159 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .item__foot { margin-top: auto; padding-top: var(--sp-2); display: flex; align-items: baseline; gap: var(--sp-3); }
-.item__price {
-  font-size: 18px; font-weight: 700; color: var(--sage-dark);
-  font-variant-numeric: lining-nums tabular-nums;
-}
+.item__price { font-size: 18px; font-weight: 700; color: var(--sage-dark); font-variant-numeric: lining-nums tabular-nums; }
 .item__price small { font-size: 11.5px; font-weight: 500; color: var(--muted); margin-inline-start: 3px; }
-.item__cal {
-  font-size: 11.5px; font-weight: 300; color: var(--muted);
-  font-variant-numeric: lining-nums tabular-nums;
-}
+.item__cal { font-size: 11.5px; font-weight: 300; color: var(--muted); font-variant-numeric: lining-nums tabular-nums; }
 
-/* ═══════════ FOOT ═══════════ */
-.foot {
+.foot-menu {
   background: var(--sage-deep); color: rgba(243,238,198,.72);
   padding-block: var(--sp-7); margin-block-start: var(--sp-7);
   text-align: center;
 }
-.foot img { width: 108px; margin-inline: auto; margin-block-end: var(--sp-4); }
-.foot p { font-size: 13px; font-weight: 300; }
-.foot .btn {
+.foot-menu img { width: 108px; margin-inline: auto; margin-block-end: var(--sp-4); }
+.foot-menu p { font-size: 13px; font-weight: 300; }
+.foot-menu .btn {
   display: inline-flex; align-items: center; gap: var(--sp-2);
   min-height: 46px; padding: 0 var(--sp-6); margin-block-start: var(--sp-5);
   background: var(--cream); color: var(--sage-ink);
   border-radius: var(--r-full); font-size: 15px; font-weight: 500;
   transition: transform var(--dur) var(--ease), background var(--dur) var(--ease);
 }
-.foot .btn:hover { background: #FBF8EC; transform: translateY(-2px); }
-.foot__note { margin-block-start: var(--sp-5); font-size: 11.5px; color: rgba(243,238,198,.5); }
+.foot-menu .btn:hover { background: var(--cream-soft); transform: translateY(-2px); }
+.foot-menu__note { margin-block-start: var(--sp-5); font-size: 11.5px; color: rgba(243,238,198,.5); }
 
-/* ═══════════ REVEAL ═══════════ */
 .rv { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
 .rv.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; opacity: 1; transform: none; }
   .rv { opacity: 1; transform: none; transition: none; }
+  .view.is-on { animation: none; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .item:hover { transform: none; }
+  .row:hover, .item:hover { transform: none; }
   .item:hover .item__media img { transform: none; }
 }
 </style>
+</head>
 
+<body>
 
+<!-- ═══════════ VIEW 1 — LINKS ═══════════ -->
+<div class="view links-view is-on" id="view-links">
+  <main class="wrap--narrow">
+    <header class="top">
+      <img class="logo rise" src="data:image/webp;base64,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" alt="قهوة رهم" width="168" height="93" style="animation-delay:.05s">
+      <h1 class="name rise" style="animation-delay:.12s">قهوة رهم</h1>
+      <p class="name-en rise" style="animation-delay:.16s">RAHAM COFFEE</p>
 
-<header class="hdr">
-  <div class="wrap hdr__in">
-    <a class="hdr__logo" href="index.html">
-      <img src="data:image/webp;base64,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" alt="قهوة رهم" width="60" height="34">
-      <b>قهوة رهم</b>
+      <div class="meta rise" style="animation-delay:.22s">
+        <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.2l5.9-.8L12 3Z"/></svg><b>4.7</b> · 249 تقييم</span>
+      <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M16 9h1.8a2.7 2.7 0 0 1 0 5.4H16"/><path d="M7 2.5v2M11 2.5v2"/></svg>23 صنف</span>
+      <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>الشفيه، الخبر</span>
+      </div>
+    </header>
+
+    <nav class="links" aria-label="روابط قهوة رهم">
+      <a class="row rise row--featured"
+       href="#menu"
+       style="animation-delay:0.28s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M16 9h1.8a2.7 2.7 0 0 1 0 5.4H16"/><path d="M7 2.5v2M11 2.5v2"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">المنيو</span>
+        <span class="row__sub">المشروبات والحلويات بالأسعار</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
     </a>
-    <a class="back" href="index.html">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-      كل الروابط
+    <a class="row rise"
+       href="https://www.instagram.com/raham_coffee/" target="_blank" rel="noopener"
+       style="animation-delay:0.33s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">إنستقرام</span>
+        <span class="row__sub">@raham_coffee</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
     </a>
-  </div>
-</header>
+    <a class="row rise"
+       href="https://www.tiktok.com/@raham_coffee" target="_blank" rel="noopener"
+       style="animation-delay:0.38s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.6 5.8a4.6 4.6 0 0 1-1.1-3H12.5v12.2a2.6 2.6 0 1 1-2.2-2.57"/><path d="M12.5 9.1a5.7 5.7 0 1 0 3.1 5.1V9.16a7.6 7.6 0 0 0 4.4 1.4V7.5"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">تيك توك</span>
+        <span class="row__sub">@raham_coffee</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
+    </a>
+    <a class="row rise"
+       href="https://www.snapchat.com/place/-raham-coffee/cd6322ef-7228-4f0e-82bf-674ee2ffd1d9" target="_blank" rel="noopener"
+       style="animation-delay:0.43s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2.6 0 4.5 2 4.5 4.7 0 .8-.05 1.5-.1 2 .4.2.9.2 1.3.05.5-.15.9.1 1 .5.1.4-.15.8-.65 1-.6.25-1.5.5-1.7 1-.2.5.5 1.5 1.1 2.2.6.7 1.5 1.3 2.4 1.6.4.15.5.5.35.8-.25.5-1.1.85-2.3 1.05-.15.35-.2.75-.3 1.05-.1.3-.35.4-.65.35-.45-.05-1.1-.2-1.95-.05-.85.15-1.6.95-3 .95s-2.15-.8-3-.95c-.85-.15-1.5 0-1.95.05-.3.05-.55-.05-.65-.35-.1-.3-.15-.7-.3-1.05-1.2-.2-2.05-.55-2.3-1.05-.15-.3-.05-.65.35-.8.9-.3 1.8-.9 2.4-1.6.6-.7 1.3-1.7 1.1-2.2-.2-.5-1.1-.75-1.7-1-.5-.2-.75-.6-.65-1 .1-.4.5-.65 1-.5.4.15.9.15 1.3-.05-.05-.5-.1-1.2-.1-2C7.5 5 9.4 3 12 3Z"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">سناب شات</span>
+        <span class="row__sub">موقع الكوفي على سناب</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
+    </a>
+    <a class="row rise"
+       href="https://hungerstation.com/sa-ar/qc/98592/Raham-Coffee/branch/al-khobar~ar-raja~175948" target="_blank" rel="noopener"
+       style="animation-delay:0.48s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 17V6a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11h13Z"/><path d="M14 9h3.5a1 1 0 0 1 .8.4l2.5 3.3a1 1 0 0 1 .2.6V17h-7V9Z"/><circle cx="6" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">اطلب توصيل</span>
+        <span class="row__sub">هنقرستيشن</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
+    </a>
+    <a class="row rise"
+       href="https://maps.app.goo.gl/7EWA7cB7hgPnE4tx6" target="_blank" rel="noopener"
+       style="animation-delay:0.53s">
+      <span class="row__ic"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+      <span class="row__txt">
+        <span class="row__label">الموقع على الخريطة</span>
+        <span class="row__sub">الشفيه، الخبر</span>
+      </span>
+      <span class="row__go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></span>
+    </a>
+    </nav>
+  </main>
 
-<main>
-  <section class="wrap hero">
-    <img class="hero__mark" src="data:image/webp;base64,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" alt="قهوة رهم" width="128" height="71">
-    <h1>المنيو</h1>
-    <p>23 صنفاً — الأسعار بالريال السعودي.</p>
-  </section>
+  <footer class="foot-links">
+    <p>قهوة رهم · الخبر</p>
+    <p><span dir="ltr">© <span class="yr">2026</span> Raham Coffee</span></p>
+  </footer>
+</div>
 
-  <nav class="jump" aria-label="أقسام المنيو">
-    <div class="wrap jump__in">
-      <a href="#المشروبات">المشروبات<span>14</span></a>
-      <a href="#الحلويات">الحلويات<span>9</span></a>
+<!-- ═══════════ VIEW 2 — MENU ═══════════ -->
+<div class="view menu-view" id="menu">
+  <header class="hdr">
+    <div class="wrap hdr__in">
+      <a class="hdr__logo" href="#">
+        <img src="data:image/webp;base64,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" alt="قهوة رهم" width="60" height="34">
+        <b>قهوة رهم</b>
+      </a>
+      <a class="back" href="#">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+        كل الروابط
+      </a>
     </div>
-  </nav>
+  </header>
 
-  <div class="wrap">
-    <section class="sec" id="المشروبات">
+  <main>
+    <section class="wrap hero">
+      <img class="hero__mark" src="data:image/webp;base64,UklGRhgGAABXRUJQVlA4IAwGAADwHACdASrfAHwAPikUiEMhoSESKqyoGAKEtLdur7ki7V88eMvmCPGMiHdl76+1f/muAvAB+Zf2HiY0qE1TywoFPMYe6HV5jD3Q6tc3zDrkqJ5dss2BsXmpew76DYKkRrK0dD7KJofcXzX/vE4oT74rnzgSOE7t/yPvC161B9slkt/45vG77/9FP4S52EkHNswBKZZQCrcQBpv5fMM3uuZL0TJ2zirhWbqz055Kw1gJ9CP8z2yP40XAiyBQJP1U138Vkv17uktyzOsmIXvdzbM7tVcoHmvNW70zYfy3sQ+eBVqhlSyVQMy9JdpMGtbLOjgA/vZW3//j2//GD/zgdnlUYgAAACu6W8kdnmx4kKyVpaMzv44SPeHNQVgN39oD5MloPBOWRdnz0I2ltDWDqMVEH2hwHomJ6QsjtPZuJFme0kWT2UnKYokzvbPQUwS3DUa8hGd1KGdr1k7LVp0rJjqevWDtNs1NdOBOEgLQBBFy/8Zo9CUqTfDrhVfJEG1/qoUMq/O/m/xs+YSX2uAabX1FXXzbksrSSMnygXgmj65wuXzCUaUJWIzJZmOc8dCYwpYRraxDHjwj7Tf5NVvKrDiEO1Ea0DMmh2Okg5SrVy8mXNYgLD/JHyAW2bRRKwon8yXhod+vPCFIn08GL+eu2wJvgXGVZ1qZvDLDuAzywS9bPdZl/c8Y2/TAay7WAlFj3xmuAtUugCodB1nEq3+EJPxuvsXE33+DXI0CF5vL6ilUT5Hb04FMYiCWa/d055/OuPvSZWABDMKQ3V2M8nMpPzsNvR+1gWXBaeIQEf5O6Aefs9CtkS+c9rnUKCXdR0tkgTO0ZiS7Uo5tPYb5P3XpjgWic/Ig7VMmYL+zYub2oXgsLtIxbtLGwUoNOx5VS7c/bixYlgUM0xHzge/rg6vsSMCCpfmUeLen9SRd6eZ4YqyQA9pQK46bpiC4P3+16ONZZR+IS8dvYVJviZeMXULiqSQvhfsRN+9JDQM7IsHiT4mrkurk+fEh6WeJf/HdENB0fscud/DRzVuN7rSYFmMTkhDjdeqOisUejJkGkf3cO1g7pmWSwZfWlHaf7/zx7L35jU2TAJW7al9D7+SKtVoLon6nYcTIEUcvm15VpclBkggogcV9EUdELlraCKqkZb1Yn2HDD6HN5L3nLa/zVf87+nEP9921LVxL51OZvlTD9M8cvXm32BqXLV73+UtVppPEtdRIQ0fGorHhRLkB3qNw7oUhfxqrnLm+MXeVPb4XFx4UUuWD9uv+xz0CzxuJ6YSGSz0/GT5+TIVjjXP4WcuDGTJ0C6sa7UgQJKDjIyBctW5juoJTW3Aua1+il63lmMjmkGW+OMrXH12MlKACMEGWr/TJVsM9tI/vTZlFmO8piFUATfLCqWj2EP6MZLkG0H5RnUj2P/3Oqu1F7SChaLiku1CYdxG0fqAkexv8MNZrA6BDGpRti5bTRgNRXIdPjq+W8gXPCbTVwVJW4NuI+kGB/AMvO+CV3yYI7wAuC7eON7JKY0xMCTU/vxw0byLdoIyP1qzRKoAEVwFUYTy7Oth6GQul5gwtlxfUeZ0XhABhGQx8zXEWpSY/DcOVOqR+V1Je4HZszxBCyKR/8+WZoaK5KIL1bm5E82gYYehkzxOwMCS9CUhfWkh0cj+w+TJGoX2GJdpIYvGYaAM2M0fm27cCIBiYFOQO3LiRhR+VHNI7C3UUwCvTZoZ4Aa6oY/IZonGlOBK0ljF7ObmBmLlOhBBIxWL9gsrQCHUfJp72S6JIGVEYbzqfcbJSgD0AtQWHEsc6xOdgaOxiherQF34S2KsunfE27DD+yYW2nAiNKJVry96hmplTWivWB+V/ziOAiD6zPxXIv5MmJ+svFpD/oqvdcas05Dec4Cn3/klGxEQeOEoZY0DWBhd42P/V+SRDoaDBy5mgp1SYXMMHBgc4c9fgtsQRtdIpjtkOKMCqMoom0CezTDVedl01W2kt4ysFsdOQQD3TldMpJkfKOfvGHDIYA3AQ5r+f34VUJGJc8NCkb9AmW7RBi3XqjaApJseNEAAFfZ32DxhYR6LSIAAAAAA=" alt="قهوة رهم" width="128" height="71">
+      <h1>المنيو</h1>
+      <p>23 صنفاً — الأسعار بالريال السعودي.</p>
+    </section>
+
+    <nav class="jump" aria-label="أقسام المنيو">
+      <div class="wrap jump__in">
+        <a href="#المشروبات">المشروبات<span>14</span></a>
+      <a href="#الحلويات">الحلويات<span>9</span></a>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <section class="sec" id="المشروبات">
       <div class="sec__head rv">
         <h2>المشروبات</h2>
         <span>14 صنف</span>
@@ -578,29 +775,85 @@ button { font: inherit; color: inherit; cursor: pointer; }
         </article>
       </div>
     </section>
-  </div>
-</main>
+    </div>
+  </main>
 
-<footer class="foot">
-  <img src="data:image/webp;base64,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" alt="قهوة رهم" width="108" height="60">
-  <p>قهوة رهم · الخبر</p>
-  <a class="btn" href="https://hungerstation.com/sa-ar/qc/98592/Raham-Coffee/branch/al-khobar~ar-raja~175948" target="_blank" rel="noopener">
-    اطلب توصيل
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 17V6a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11h13Z"/><path d="M14 9h3.5a1 1 0 0 1 .8.4l2.5 3.3a1 1 0 0 1 .2.6V17h-7V9Z"/><circle cx="6" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
-  </a>
-  <p class="foot__note">الأسعار كما هي معروضة في قائمة التوصيل وقد تتغيّر.</p>
-</footer>
+  <footer class="foot-menu">
+    <img src="data:image/webp;base64,UklGRhoKAABXRUJQVlA4WAoAAAAQAAAA3gAAewAAQUxQSDYDAAABp6GgbRtmJ+GPusUQETmYmFgwsYCibdtpG+gYw4ylMJXp/v/PSZYDWtbwRPR/Avjf//+y2QyaDv1lGjL9ju4I2VTBcs9Y1lqAzKUdsu8Jz4mcCc+F7CBtCVDZdzAkSJeWKSE77RPC7dApHxNJ0ncnQGJgquJGeOSAXMMD5nJ+CI97uX8FhyS1h9C0/QbEXpK+pQ9IoIlFDodxtVMx5uAB2zwukqpWy8htck2BHB4/LNizxkzKKpZrQ84AMSA3+JSo6luVMy1fRZmkXjVLtjJ7dErI/KZY0iCvUg2ODduTJM2Ar19cHiz0najUA0mWhaRPyJkJ4wgtkBXixHaQqNJNmUDnTtIDxdIPNdjI/MJxrGr1pYIpkoS1kbQkLWjW9jKfYyC2SVpXp3sVR7ODJIolLeAo6xMpZgbMJFGJY3iSK0hqQ60PSNIvqewtXDNJH9WIvUryLdWiKGHW+jRQYQ/HBEmiEo90VmhNVHaBPTLoVqVUjruRyznnJDZrV5KG1SeV6wtcJKekJH1SeVdyjSC+wISyz0ZWdZ7kuksAzkfpiUz82fFR/VnOE6yr85womTFIZeLR2Y+kceaVN7lTfI4N5eNU5o8/nlTc8UVdJfu4lnqNiEtFyIovMzkXZLe1UslfHHNg6HRKOedI1t/EE7FKdiHipp9UGucWZtu2aUN8jo7seLKt0r/ccn2r0m2uNbW1+JCd2BM6b+c20h+V3zAz4muIbKiYzA/HM0laXFMG6KwzyLnytYoHeHGBLju5ks5R511wg98qfsaTusZd5wLDD539iyuOChLk+BZ74nAV9rf1JDcSIO89rHXZl179morljCfv5ecJN5nL9RlPjuXlHPf6tTTkPMSXsrL2yZQb3cgZb8ps08Nly/aGTtzsVM4tvBlZMIvmtIDBTbxyw3J832Yk/pCZGDk8SZ9DgBhr66pOfW64reLTCL8+W7jo7Drq3PjcWPbxsEzs0Zms9/tz/RwfejkejCmMfHNyu3DUTLFHSZpQkWOZx+uo5lsL7fHlmhVNNuKLJUnFC1bLJnRGocNflg6Bk3YDpxkHDgTPTlIcMkjKQoeg7YUOu9ChHTr/+/8fZQFWUDggvgYAAJAmAJ0BKt8AfAA+KRSIQyGhIRGZdRAYAoS0t3BgADM5TnpHWyz/Lfw38LP8p0kPqP235gTSLFzyBWt9290HzAvWuMXk5chjzz2AP5V/gvVV/r/2Z8635x/kfYD/mf9z9Mb2G/tj7HH7cEF5CmZmZmZmZmZmZUDy4fv6AxhroNsnFFvTtC1mvqNZ+CJr7zCexzfJfPq2vp9MIOcUBTzZBB2kbpJL0h4NosnKR7TCP6daCuplBpzbkS/rgeImWzp6CdIB4wBouSDDE26ur2HH5RDTPK2M14RTzXFHAHbMWqYJfI32wLqf9xAFkzX1xqh4GkpstMqFWSm4U+5PsniOEPstCZc/382hkcV2I5nZa/yCBN90r6NUF4rP5TZq4hyoh9Vw60zk252sjaP15z9ec/XnGmudGfve973q2USAAP58C///IMf6Gv8FeAKQ8AAAAfIj15EnyHQHVd6osZa8l7IFTYTInymfzJfRIiRBLFf8O7EHwysRUta7pVAnOAAFJyR2VzKW+UwtZcPz4B22oLHZVTzRgmWWQONIKTlUoUwScrkobnInts8ELTumoTwfAr2hHwfznRlcVXh2OIzU4jXM4ZMPdzZfkWr+PoUM/OiIw4kciFIQ+TCzXVHJIC+l1MFf80SjOlni34AJgtyDefsg39bNnjJW+hfbt8h7QxSMbCZ3iTzzqISdVfJtRcM3WSdhbCtCnvwMvl7/O30lNuZLRzEWOmWEdrpigcE23DF46ygMm2PdlYkS8nmMuOKhX1qYfs/UxOGseQZmSWsaezreKgQ0xN+ly7Qm0IXIFeK+HdhZGkY8XGp3QSzekhvS7QGAMRsmbUXTItQu6HEWKFdp8GLYXCHisux37SrVyqmIzYrh+z8B627YjqfGO3UcgVDdzmZQvzGIXL5dZ+4RjB4t/0Ek+sLJLp8bGBhGPQ3S9A77i9AP1J/ubSieD/EmAxrQbssICjZtMW0O90XlWNVooSTUus/+eMHt/qkyAnsjk0CrZ7EsPWj9QRY418/1JUuNHVMMm/+iQ/ETd5NfW+k7RIWA7H9wZGIyzpqFHYn2rYkEeUBYAxxQsXbd0ZyXmSzDpq+Kq+OPOyPgvrHxXtMlItwiraYH8G9WH1dHZEY+KqkFKPFWm09CdYCmbUdtzzG63wpbDxAVgB9htF+v2ZBOO/CUmK0pn8SO8J+8RKJC8M7rYHBJpW++GU75yfZx53Yem/4dw3l7OLwkZ9lFGC9KoXHjmfeO6Mp1qP/etRLN3JPSYWlion+04fqsQUsKyss2rYakEOpEuazI5SZDv+f7YahkIqmvZV39VUEEu1X4QTwrV0MljVD07fiM518fzRcUXG363ASrwOaE8fiEFi3mdVIjNMN17ffzSK5SfoonhKFEZvktMZuh6AjwSS0GHgKC8mBoBreZ4Z0z26y+U8zkucN6BssaT9q2I7Ofj3KATWxekj6dM+AAP6u2a84XmK5KVn1EEBiXzQWI2H9Rd0Kkkn0a1fZXbFFrlksdP6qcCfmc/xe7RbIeKLxmCWsNDtB3L4YQ/GdlaWAtMTydMwPrb2YsAAsPQq9BDVQJxeZ5bHYgDLyR9jVmcCxvK+AKPIlNOwInDAxSYATNgRGr+bSpspppCpNohI8DoOljMpaQ7X4QyzIn0HOojKKFoBkBQr0v0y+SAOrlVFGAelcxocFEI05hwtsWvBoSd4qxggKNJEmKTQLhcvLs6eMzn8IYQIPP5RLIv86GHu17TZoqX7j0+CrWTrD2E4ptKS6Zz/7oPY6xmidiRK99M4J/1bVdNnU87ltizxzR7nqSLzESSwFHp4iRbpxQDRpUyrmMRFc3WWD9VjSCss6z3NwDe9sLla4J2dDH0Nb1ZE6cGFa6Bnfj+4x59CQWrxXHDDf6Gj9ZO+/PgAEUhhVBsPp6ujmIzgir8nFC9FrM2lQ4I7ub40bRLWsaesZU/JKAHUhBrhuyIT2iRVwkI8xNHOkqLuUH4s9cOc2EK6RhgnrhXDzjPXH+7756dfwcBsh3NakDDFgDfSItu/93kIIjjsWxuz7AARBKLx/72RGxN1sKGWpO8OcLRO+qzI8n1tJd6Lilqg7NxT48HgmRbDbtUFco3iAbi07M/bQbIjJvAxz8yjleT2/HSWO6aeL+W602hUMs4og+LMjpicQrY+YttjrCBgw0yVp9oBe1ywl6bZujmUFC/BRvWFrgq7S71Z9tRGNkeqCHhCRcIeEYPYDSwzW+9hmp/nvSX/+7BHY2j2GEvQAPCLDrh3vnP2FbVimCAN6Q0iUwAzmCRfswNbdII6AAAAA=" alt="قهوة رهم" width="108" height="60">
+    <p>قهوة رهم · الخبر</p>
+    <a class="btn" href="https://hungerstation.com/sa-ar/qc/98592/Raham-Coffee/branch/al-khobar~ar-raja~175948" target="_blank" rel="noopener">
+      اطلب توصيل
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 17V6a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11h13Z"/><path d="M14 9h3.5a1 1 0 0 1 .8.4l2.5 3.3a1 1 0 0 1 .2.6V17h-7V9Z"/><circle cx="6" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+    </a>
+    <p class="foot-menu__note">الأسعار كما هي معروضة في قائمة التوصيل وقد تتغيّر.</p>
+  </footer>
+</div>
 
 <script>
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Reveal on scroll */
-  var rv = [].slice.call(document.querySelectorAll('.rv'));
-  if (reduce || !('IntersectionObserver' in window)) {
-    rv.forEach(function (el) { el.classList.add('is-in'); });
-  } else {
+  [].forEach.call(document.querySelectorAll('.yr'), function (el) {
+    el.textContent = new Date().getFullYear();
+  });
+
+  var views = { links: document.getElementById('view-links'),
+                menu:  document.getElementById('menu') };
+  var tc = document.getElementById('tc');
+  var revealed = false;
+
+  /* The hash is the whole router: "#menu" opens the menu, anything else is
+     the links view. Section anchors inside the menu (#المشروبات) must not be
+     mistaken for it, so only an exact "#menu" switches. */
+  function show(name, push) {
+    var isMenu = name === 'menu';
+    views.links.classList.toggle('is-on', !isMenu);
+    views.menu.classList.toggle('is-on', isMenu);
+    document.body.classList.toggle('on-menu', isMenu);
+    tc.setAttribute('content', isMenu ? '#FBF8EC' : '#7C8A5F');
+    document.title = isMenu ? 'منيو قهوة رهم — Raham Coffee' : 'قهوة رهم — Raham Coffee';
+
+    if (push) {
+      history.pushState(null, '', isMenu ? '#menu' : location.pathname + location.search);
+    }
+    window.scrollTo(0, 0);
+    if (isMenu) reveal();
+  }
+
+  function fromHash() {
+    var h = location.hash;
+    if (h === '#menu') return show('menu', false);
+    if (!h) return show('links', false);
+    // Any other hash is a section anchor inside the menu. Open the menu if it
+    // names one (a shared deep link), and otherwise leave the view alone —
+    // re-routing here is what used to bounce a category tap back to the links.
+    if (views.menu.querySelector(CSS.escape ? '#' + CSS.escape(h.slice(1)) : h)) {
+      if (!views.menu.classList.contains('is-on')) show('menu', false);
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href="#menu"], a[href="#"]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.getAttribute('href') === '#menu' ? 'menu' : 'links', true);
+  });
+
+  addEventListener('popstate', fromHash);
+  fromHash();
+
+  /* Menu cards reveal on scroll — but only once the menu has been opened,
+     or the observer fires against a hidden view and everything is already
+     "revealed" by the time it is seen. */
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    var rv = [].slice.call(views.menu.querySelectorAll('.rv'));
+    if (reduce || !('IntersectionObserver' in window)) {
+      rv.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e, i) {
         if (!e.isIntersecting) return;
@@ -610,12 +863,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
       });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
     rv.forEach(function (el) { io.observe(el); });
-  }
 
-  /* Mark the category the reader is currently inside. */
-  var links = [].slice.call(document.querySelectorAll('.jump a'));
-  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
-  if ('IntersectionObserver' in window) {
+    var links = [].slice.call(views.menu.querySelectorAll('.jump a'));
+    var secs = links.map(function (a) { return views.menu.querySelector(a.getAttribute('href')); });
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -627,3 +877,5 @@ button { font: inherit; color: inherit; cursor: pointer; }
   }
 })();
 </script>
+</body>
+</html>
