@@ -19,3 +19,24 @@ python3 ".claude/skills/ui-ux-pro-max/scripts/search.py" "suspense streaming" --
 
 Requires Python 3.x (standard library only). Source and version details:
 [`.claude/skills/ui-ux-pro-max/INSTALL.md`](.claude/skills/ui-ux-pro-max/INSTALL.md).
+
+## MCP servers
+
+Configured in [`.mcp.json`](.mcp.json) at project scope, so anyone working in this repo
+gets the same servers. Claude Code asks for approval the first time it sees them.
+
+### 21st
+
+[21st.dev](https://21st.dev) component and design MCP server, over HTTP.
+
+Authentication reads the `API_KEY_21ST` environment variable — the key itself is **not**
+stored in the repo, only the `${API_KEY_21ST}` reference. Export it before starting
+Claude Code:
+
+```bash
+export API_KEY_21ST="your-key-here"
+```
+
+Put it in your shell profile (or a git-ignored `.env`) rather than committing it. Without
+it, `claude mcp list` reports `Missing environment variables: API_KEY_21ST` and the server
+returns HTTP 401.
