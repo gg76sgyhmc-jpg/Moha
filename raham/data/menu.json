@@ -1,0 +1,203 @@
+[
+ {
+  "name": "المشروبات",
+  "name_en": "DRINKS",
+  "items": [
+   {
+    "id": 102902489,
+    "name": "قهوة اليوم",
+    "name_en": "Coffee Day",
+    "price": "5",
+    "desc": "قهوة اليوم نكهة متجددة محمّصة طازجة",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/8c8fc0704fa96ebc635fe07d6555f312.jpeg?width=222"
+   },
+   {
+    "id": 104286929,
+    "name": "قهوة مقطرة",
+    "name_en": "Drip Coffee",
+    "price": "9.90",
+    "desc": "قهوة مقطّرة ترشيح نقي بمذاق متوازن اختر محصولك",
+    "calories": 1,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/d667f8795e109a1866c3fc11af80bdc1.png?width=222"
+   },
+   {
+    "id": 102902491,
+    "name": "شاي مثلج",
+    "name_en": "Ice Tea",
+    "price": "10",
+    "desc": "شاي مثلّج شاي بارد منعش متوازن",
+    "calories": 110,
+    "image": null
+   },
+   {
+    "id": 102902492,
+    "name": "كركديه",
+    "name_en": "Ice Roselle",
+    "price": "7",
+    "desc": "كركديه مشروب زهري منعش بطعم طبيعي",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/768ce36e7968a87366b1914092b6cbb1.jpeg?width=222"
+   },
+   {
+    "id": 102902493,
+    "name": "كرتادو",
+    "name_en": "Cortado",
+    "price": "8",
+    "desc": "كورتادو إسبريسو مع حليب متوازن القوام",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/98277e60eb473361d9aaea961359c62c.jpeg?width=222"
+   },
+   {
+    "id": 102902494,
+    "name": "فلات وايت",
+    "name_en": "Flatewhite",
+    "price": "9",
+    "desc": "فلات وايت قهوة ناعمة بحليب ميكروفوم",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/7e0fb281027693469fb25e24050ca6a5.jpg?width=222"
+   },
+   {
+    "id": 102902495,
+    "name": "كابتشينو",
+    "name_en": "Cappuccino",
+    "price": "10",
+    "desc": "كابتشينو رغوة كثيفة ونكهة متوازنة",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/a5f29ec888f31ddd9cf5ba9a61c2ee6d.jpeg?width=222"
+   },
+   {
+    "id": 102902496,
+    "name": "لاتيه",
+    "name_en": "Latte",
+    "price": "9",
+    "desc": "لاتيه قهوة بالحليب بقوام كريمي",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/c82096aebfbfbd040d0a5063d8701c6a.jpeg?width=222"
+   },
+   {
+    "id": 102902497,
+    "name": "امريكانو",
+    "name_en": "Americano",
+    "price": "8",
+    "desc": "أمريكانو إسبريسو مخفف بنكهة سلسة",
+    "calories": 10,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/8c8fc0704fa96ebc635fe07d6555f312.jpeg?width=222"
+   },
+   {
+    "id": 102902498,
+    "name": "سبانش لاتيه",
+    "name_en": "Spanish latte",
+    "price": "10",
+    "desc": "سبانيش لاتيه لاتيه محلى بطعم غني",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/e05b6c89f85d541ac67506b1050922ce.jpeg?width=222"
+   },
+   {
+    "id": 102902499,
+    "name": "اسبريسو",
+    "name_en": "Espresso",
+    "price": "7",
+    "desc": "إسبريسو جرعة مركزة بنكهة قوية",
+    "calories": 1,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/4f18e38bb1558c5250362bea6c2788e8.jpeg?width=222"
+   },
+   {
+    "id": 102902500,
+    "name": "اسبريسو الفريدو",
+    "name_en": "Espresso alfredo",
+    "price": "10",
+    "desc": "إسبريسو فريدو إسبريسو بارد منعش القوام",
+    "calories": 120,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/a34c16a74f1253ae4123026f9ef97050.jpeg?width=222"
+   },
+   {
+    "id": 102902501,
+    "name": "ماتشا",
+    "name_en": "Matcha",
+    "price": "12",
+    "desc": "ماتشا شاي أخضر مطحون بنكهة مخملية",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/e31b2d7440a394b7cbf1060568e24112.jpg?width=222"
+   }
+  ]
+ },
+ {
+  "name": "الحلا",
+  "name_en": "DESSERT",
+  "items": [
+   {
+    "id": 102902502,
+    "name": "رهم تشوكلت كيك",
+    "name_en": "Raham Chocolate cake",
+    "price": "14",
+    "desc": "رهم تشوكلت كيك كيك شوكولاتة غني فاخر",
+    "calories": null,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/c6614a2e1d207704069a20cc17de45b5.jpeg?width=222"
+   },
+   {
+    "id": "b66786205",
+    "name": "براونيز",
+    "name_en": "Brownies",
+    "price": "9",
+    "desc": "",
+    "calories": null,
+    "image": null
+   },
+   {
+    "id": 102902504,
+    "name": "كوكيز رهم",
+    "name_en": "Chocolate Cookies",
+    "price": "7",
+    "desc": "كوكيز رهم كوكيز طازجة بقرمشة مثالية",
+    "calories": 220,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/2d9a15e8ca61dfaa6bebb3d524985666.jpg?width=222"
+   },
+   {
+    "id": 102902505,
+    "name": "بستاشيو كنافة",
+    "name_en": "Pistachio Kunafa",
+    "price": "9",
+    "desc": "بستاشيو كنافة كنافة فاخرة بحشوة فستق",
+    "calories": 480,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/4c0e69a63deaa1ef42dc8a402aafd6c1.jpg?width=222"
+   },
+   {
+    "id": 102902506,
+    "name": "ماجيك بار",
+    "name_en": "Magic Bar",
+    "price": "8",
+    "desc": "ماجيك بار طبقات حلوى غنية متنوعة",
+    "calories": 390,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/92fb8a1a17e664ceff1a1dc3d0068bbf.jpeg?width=222"
+   },
+   {
+    "id": "b449396",
+    "name": "كندر كنافة",
+    "name_en": "Kinder Kunafa",
+    "price": "9",
+    "desc": "",
+    "calories": null,
+    "image": null
+   },
+   {
+    "id": 102902508,
+    "name": "بيكان تشوكلت بار",
+    "name_en": "Pecan Chocolate bar",
+    "price": "9",
+    "desc": "بيكان تشوكلت بار شوكولاتة فاخرة بجوز بيكان",
+    "calories": 430,
+    "image": "https://images.deliveryhero.io/image/hungerstation/menuitem/image_url_ref/34d493613d794ee990b61a31dafad3b7.jpg?width=222"
+   },
+   {
+    "id": "b86257261",
+    "name": "كرات الطاقه",
+    "name_en": "Energy Balls",
+    "price": "10",
+    "desc": "",
+    "calories": null,
+    "image": null
+   }
+  ]
+ }
+]

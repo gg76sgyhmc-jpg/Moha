@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بطاقة الباركود — قهوة رهم</title>
+<style>
+/*@FONTS@*/
+
+/* A table card for the QR that opens the links page. A6 (105×148mm), four to
+   an A4 sheet at 100%. Same palette and type as the page it opens: the deep
+   green of the café's boards, their cream, IBM Plex Sans Arabic.
+
+   The code itself sits on a cream plate rather than inverted onto the green.
+   Cream-on-green would match the page more literally and scan worse — dark
+   modules on a light ground is the polarity scanners expect. */
+@page { size: A6; margin: 0; }
+
+:root {
+  --ink-950: #0D130D;
+  --ink-900: #151D15;
+  --ink-800: #1D2719;
+  --sage:    #A3AE84;
+  --cream:   #F3F0D7;
+  --cream-3: rgba(243, 240, 215, .42);
+  --ff: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; display: grid; place-items: center; min-height: 100vh;
+  background: #2A2C26; font-family: var(--ff);
+}
+
+.card {
+  width: 105mm; height: 148mm;
+  background: var(--ink-900);
+  background-image: radial-gradient(58% 42% at 50% 6%,
+                    rgba(163, 174, 132, .17) 0%, transparent 70%);
+  color: var(--cream);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 11mm 8mm 8mm;
+  text-align: center;
+}
+
+.mark { width: 34mm; margin-bottom: 3mm; }
+
+.card h1 { margin: 0; font-size: 7.4mm; font-weight: 700; line-height: 1.15; }
+.card h2 {
+  margin: 1.4mm 0 0; font-size: 2.9mm; font-weight: 500;
+  letter-spacing: .34em; padding-inline-start: .34em;
+  direction: ltr; color: var(--sage);
+}
+
+.qr {
+  margin-top: auto;
+  background: var(--cream);
+  padding: 3.5mm; border-radius: 4mm;
+}
+.qr img { display: block; width: 43mm; height: 43mm; }
+
+.cta { margin-top: 4.5mm; font-size: 4.4mm; font-weight: 700; }
+.cta small {
+  display: block; margin-top: 1mm;
+  font-size: 2.8mm; font-weight: 400; letter-spacing: .18em;
+  color: var(--cream-3); direction: ltr;
+}
+
+/* What is behind the code, so it is worth scanning. */
+.what {
+  margin-top: 3.5mm; display: flex; gap: 1.5mm;
+  flex-wrap: wrap; justify-content: center;
+}
+.what span {
+  border: .3mm solid rgba(243, 240, 215, .2);
+  border-radius: 999px; padding: 1mm 3mm;
+  font-size: 2.7mm; font-weight: 400; color: var(--cream-3);
+}
+
+.foot {
+  margin-top: 3.5mm;
+  font-size: 2.6mm; font-weight: 400; color: rgba(243, 240, 215, .38);
+  direction: ltr;
+}
+
+@media print {
+  body { background: #fff; min-height: 0; display: block; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <img class="mark" src="../assets/logo-mark.webp" alt="قهوة رهم">
+  <h1>قهوة رهم</h1>
+  <h2>RAHAM COFFEE</h2>
+
+  <div class="qr">
+    <img src="links-qr.png" alt="امسح الرمز لفتح صفحة رهم">
+  </div>
+
+  <p class="cta">
+    امسح الرمز
+    <small>SCAN ME</small>
+  </p>
+
+  <div class="what">
+    <span>المنيو</span>
+    <span>إنستقرام</span>
+    <span>التوصيل</span>
+    <span>الموقع</span>
+  </div>
+
+  <p class="foot">gg76sgyhmc-jpg.github.io/Moha</p>
+</div>
+</body>
+</html>
