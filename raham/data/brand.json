@@ -1,0 +1,65 @@
+{
+  "_source": "Verified from the café's own listings — HungerStation vendor record, Snapchat place page, and the Google Maps pin supplied by the owner. Anything not found there is null rather than guessed.",
+
+  "name_ar": "قهوة رهم",
+  "name_en": "Raham Coffee",
+  "city_ar": "الخبر",
+
+  "rating": {
+    "value": "4.7",
+    "count": 249,
+    "source": "HungerStation"
+  },
+
+  "phone": null,
+  "whatsapp": null,
+
+  "map_url": "https://maps.app.goo.gl/7EWA7cB7hgPnE4tx6",
+  "map_label_ar": "الشفيه، الخبر",
+
+  "links": [
+    {
+      "key": "menu",
+      "href": "menu.html",
+      "label_ar": "المنيو",
+      "sub_ar": "المشروبات والحلويات بالأسعار",
+      "icon": "cup",
+      "featured": true
+    },
+    {
+      "key": "instagram",
+      "href": "https://www.instagram.com/raham_coffee/",
+      "label_ar": "إنستقرام",
+      "sub_ar": "@raham_coffee",
+      "icon": "instagram"
+    },
+    {
+      "key": "tiktok",
+      "href": "https://www.tiktok.com/@raham_coffee",
+      "label_ar": "تيك توك",
+      "sub_ar": "@raham_coffee",
+      "icon": "tiktok"
+    },
+    {
+      "key": "snapchat",
+      "href": "https://www.snapchat.com/place/-raham-coffee/cd6322ef-7228-4f0e-82bf-674ee2ffd1d9",
+      "label_ar": "سناب شات",
+      "sub_ar": "موقع الكوفي على سناب",
+      "icon": "snapchat"
+    },
+    {
+      "key": "hungerstation",
+      "href": "https://hungerstation.com/sa-ar/qc/98592/Raham-Coffee/branch/al-khobar~ar-raja~175948",
+      "label_ar": "اطلب توصيل",
+      "sub_ar": "هنقرستيشن",
+      "icon": "delivery"
+    },
+    {
+      "key": "map",
+      "href": "https://maps.app.goo.gl/7EWA7cB7hgPnE4tx6",
+      "label_ar": "الموقع على الخريطة",
+      "sub_ar": "الشفيه، الخبر",
+      "icon": "pin"
+    }
+  ]
+}

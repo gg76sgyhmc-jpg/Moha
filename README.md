@@ -92,3 +92,16 @@ All 78 services, their prices, durations, photos and the booking policies are
 pulled from the salon's own live booking profile — see
 [`site/README.md`](site/README.md) for the data source, rebuild steps, and the
 details the source data does not carry.
+
+## قهوة رهم — Raham Coffee
+
+A links page and a rebuilt menu for the café in Al Khobar, in [`raham/`](raham/):
+
+```bash
+python3 -m http.server -d raham 8080
+```
+
+All 23 menu items, their prices, descriptions and photos, plus the rating and
+every link, come from the café's own public listings. No phone number is
+published on any of them, so none is shown — see [`raham/README.md`](raham/README.md)
+for how to add it, and for the two-location caveat.
