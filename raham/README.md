@@ -101,7 +101,16 @@ than letting a visitor arrive expecting the wrong number.
 
 Five items on the delivery listing are not on the boards and are not shown:
 بوكس القهوه، كرانشي كيك، رمان تشوكلت بار، بستاشيو تشوكلت بار، تشيز كيك مدريد.
-Three board items have no photo on file: براونيز، كندر كنافة، كرات الطاقه.
+Four items have no photograph anywhere the café publishes: شاي مثلج (its
+delivery entry has no image) and براونيز، كندر كنافة، كرات الطاقه (not on the
+delivery listing at all). Their Instagram blocks automated reads and TikTok
+serves no posts without a login, so there is no other source that is theirs.
+
+Rather than borrow a stock or another café's picture, those cards carry the
+رهم mark on the brand green. A coffee cup was tried first and rejected: it
+mislabels a dessert. To fill them, drop a photo into `_src/items/` named
+`<id>.jpeg` — the ids are in `data/menu.json` — then run `build_assets.py`
+and `build.py`.
 
 The logo is used exactly as supplied. `build_assets.py` only trims it to its own
 edges; `logo-mark.webp` is the same mark with the sage keyed out, for the places

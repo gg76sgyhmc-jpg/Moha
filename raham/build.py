@@ -110,7 +110,9 @@ def menu_parts(brand: dict, menu: list) -> tuple[str, str]:
                 f'<img src="assets/items/{key}.webp" alt="{escape(it["name"])}" '
                 f'loading="lazy" decoding="async" width="88" height="88">'
                 if key in photos else
-                f'<div class="item__media--none" style="width:100%;height:100%">{icon("cup", 26)}</div>'
+                '<div class="item__media--none">'
+                '<img src="assets/logo-mark.webp" alt="" aria-hidden="true" '
+                'loading="lazy" decoding="async" width="57" height="32"></div>'
             )
             cal = (f'<span class="item__cal">{it["calories"]} سعرة</span>'
                    if it.get("calories") else "")

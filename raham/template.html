@@ -320,12 +320,16 @@ body:has(#menu:target) #view-links { display: none; }
 .item__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease); }
 .item:hover .item__media img { transform: scale(1.09); }
 
-/* No photo on file: the brand green with a cup, never a grey box. */
+/* No photo on file. A coffee cup here would mislabel a dessert, and a grey
+   box reads as broken, so the tile carries the café's own mark instead —
+   honest about the gap and still theirs. */
 .item__media--none {
   width: 100%; height: 100%; display: grid; place-items: center;
-  background: linear-gradient(155deg, var(--sage-dim) 0%, var(--ink-800) 100%);
-  color: var(--cream-2);
+  background: linear-gradient(155deg, var(--ink-700) 0%, var(--ink-850) 100%);
+  border: 1px solid var(--hair);
+  border-radius: inherit;
 }
+.item__media--none img { width: 62%; height: auto; opacity: .45; }
 
 .item__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .item__name { font-size: 16px; font-weight: 700; line-height: 1.4; }
