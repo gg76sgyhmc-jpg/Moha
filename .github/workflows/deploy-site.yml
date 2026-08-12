@@ -17,6 +17,7 @@ on:
     paths:
       - 'raham/**'
       - 'site/**'
+      - 'menu/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
@@ -44,6 +45,12 @@ jobs:
           cp -r raham/assets _deploy/assets
           cp site/index.html site/standalone.html _deploy/elegance/
           cp -r site/assets _deploy/elegance/assets
+
+          # The Usta Ghazi menu, at the address its QR code points to.
+          mkdir -p _deploy/usta-ghazi
+          cp menu/usta-ghazi-menu.pdf _deploy/usta-ghazi/menu.pdf
+          cp menu/index.html _deploy/usta-ghazi/index.html
+          cp menu/qr/menu-qr.png menu/qr/menu-qr.svg _deploy/usta-ghazi/
 
           # Without this Pages runs Jekyll, which drops underscore-prefixed paths.
           touch _deploy/.nojekyll
