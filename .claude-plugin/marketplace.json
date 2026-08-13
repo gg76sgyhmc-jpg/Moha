@@ -1,0 +1,20 @@
+{
+  "name": "moha-skills",
+  "owner": {
+    "name": "Moha",
+    "url": "https://github.com/gg76sgyhmc-jpg/Moha"
+  },
+  "description": "Skills kept here so they load in every project and conversation.",
+  "plugins": [
+    {
+      "name": "omniroute",
+      "displayName": "OmniRoute",
+      "source": "./plugins/omniroute",
+      "description": "46 skills for driving OmniRoute — the CLI (serve, routing, models, chat, keys, MCP) and the OpenAI-compatible REST API (auth, providers, inference, cache, webhooks, budgets).",
+      "author": {
+        "name": "diegosouzapw",
+        "url": "https://github.com/diegosouzapw/OmniRoute"
+      }
+    }
+  ]
+}
