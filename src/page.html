@@ -1,0 +1,1194 @@
+<title>أسماء في السماء</title>
+
+<style>
+/* ————— الخطوط المضمّنة ————— */
+/* @FONTS@ */
+
+/* ————— الرموز ————— */
+/* تصميم أحادي السمة عن قصد: الصفحة سماءُ ليل، ونسخة نهارية منها تناقض موضوعها.
+   لذلك كل لون هنا معرَّف صراحةً ولا يرث شيئاً من مضيف الصفحة. */
+:root {
+  --void:      #04050e;
+  --night:     #080a1a;
+  --surface:   #0d1026;
+  --haze:      #171b3c;
+  --line:      rgba(143, 150, 214, 0.16);
+  --line-soft: rgba(143, 150, 214, 0.08);
+
+  /* ألوان التوهّج مأخوذة من أطياف النجوم الحقيقية */
+  --gold:  #ffc34d;   /* عملاق بارد — الدبران */
+  --ice:   #8fd9ff;   /* فوق-عملاق أزرق حار — رجل الجوزاء */
+  --ember: #ff7a5c;   /* فوق-عملاق أحمر — إبط الجوزاء */
+
+  --parchment: #f2ebdc;
+  --dust:      #9b9dc4;
+  --dust-dim:  #676a92;
+
+  --step--1: 0.8rem;
+  --step-0:  1.0rem;
+  --step-1:  1.2rem;
+  --step-2:  1.55rem;
+  --step-3:  2.1rem;
+  --step-4:  clamp(2.2rem, 4.4vw, 3.4rem);
+  --step-5:  clamp(3.2rem, 11vw, 8rem);
+
+  --measure: 63ch;
+  --pad: clamp(1.25rem, 5vw, 5.5rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--parchment);
+  font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: var(--step-0);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.page { direction: rtl; text-align: right; position: relative; }
+
+::selection { background: var(--gold); color: var(--void); }
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.ltr { direction: ltr; unicode-bidi: isolate; }
+
+/* ————— الشريط العلوي ————— */
+.bar {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem var(--pad);
+  background: linear-gradient(to bottom, rgba(4, 5, 14, 0.92), rgba(4, 5, 14, 0));
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+.bar > * { pointer-events: auto; }
+
+.mark {
+  font-family: "Aref Ruqaa", serif;
+  font-size: var(--step-1);
+  color: var(--parchment);
+  letter-spacing: 0;
+  line-height: 1;
+  padding-block: 0.35em;
+}
+.mark span { color: var(--gold); }
+
+.nav { display: flex; gap: clamp(0.9rem, 2.4vw, 2rem); }
+.nav a {
+  color: var(--dust);
+  text-decoration: none;
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  position: relative;
+  padding-block: 0.4em;
+  transition: color 0.35s var(--ease);
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0.1em;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.nav a:hover, .nav a:focus-visible { color: var(--parchment); }
+.nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
+@media (max-width: 620px) { .nav a:nth-child(n + 3) { display: none; } }
+
+.progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: right;
+  background: linear-gradient(to left, var(--gold), var(--ice));
+  z-index: 70;
+}
+
+/* ————— السماء ————— */
+#sky {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 30% 15%, rgba(255, 195, 77, 0.07), transparent 60%),
+    radial-gradient(100% 90% at 85% 90%, rgba(143, 217, 255, 0.06), transparent 62%),
+    radial-gradient(140% 110% at 50% 50%, transparent 40%, rgba(4, 5, 14, 0.75) 100%);
+}
+
+.content { position: relative; z-index: 2; }
+
+/* ————— البطل ————— */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding: 7rem var(--pad) 5rem;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin-inline: auto;
+  width: 100%;
+}
+@media (min-width: 900px) {
+  .hero-inner { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; }
+}
+
+.eyebrow {
+  font-size: var(--step--1);
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 1.6rem;
+}
+.eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to left, rgba(255, 195, 77, 0.55), transparent);
+}
+
+.hero h1 {
+  font-family: "Aref Ruqaa", serif;
+  font-weight: 700;
+  font-size: var(--step-5);
+  line-height: 1.38;   /* خط الرقعة يحتاج فسحة لصعوده ونزوله */
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: 0;
+}
+.hero h1 .glow {
+  color: var(--gold);
+  text-shadow: 0 0 26px rgba(255, 195, 77, 0.45), 0 0 70px rgba(255, 195, 77, 0.2);
+}
+
+.lede {
+  max-width: 46ch;
+  color: var(--dust);
+  font-size: var(--step-1);
+  line-height: 1.95;
+  margin: 1.9rem 0 0;
+}
+.lede strong { color: var(--parchment); font-weight: 400; }
+
+.scroll-cue {
+  margin-top: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--dust-dim);
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-decoration: none;
+}
+.scroll-cue i {
+  width: 1px;
+  height: 2.6rem;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  display: block;
+  animation: drip 2.6s var(--ease) infinite;
+}
+@keyframes drip {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  60%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+}
+
+/* لوحة الكوكبة */
+.figure-frame { position: relative; min-height: 34vh; }
+@media (min-width: 900px) { .figure-frame { min-height: 70vh; } }
+@media (max-width: 899px) {
+  .hero { padding: 5.5rem var(--pad) 2.5rem; }
+  .lede { font-size: var(--step-0); margin-top: 1.4rem; line-height: 1.85; }
+  .scroll-cue { margin-top: 1.5rem; }
+  .scroll-cue i { height: 1.9rem; }
+}
+
+.star-label {
+  position: absolute;
+  transform: translateY(-50%);
+  font-size: var(--step--1);
+  line-height: 1.5;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+  pointer-events: none;
+}
+.star-label.on { opacity: 1; }
+.star-label b { display: block; font-weight: 400; color: var(--parchment); }
+.star-label em {
+  display: block;
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  color: var(--dust-dim);
+  direction: ltr;
+}
+@media (max-width: 899px) { .star-label { display: none; } }
+
+.figure-caption {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--dust-dim);
+  max-width: 26ch;
+  line-height: 1.7;
+  margin: 0;
+}
+@media (max-width: 899px) { .figure-caption { display: none; } }
+
+/* ————— الأقسام ————— */
+.section { padding: clamp(5rem, 13vh, 9rem) var(--pad); max-width: 1400px; margin-inline: auto; }
+
+.section-head { display: grid; gap: 1.1rem; margin-bottom: clamp(2.5rem, 6vh, 4.5rem); }
+.section-head h2 {
+  font-family: "Aref Ruqaa", serif;
+  font-weight: 700;
+  font-size: var(--step-4);
+  line-height: 1.4;
+  margin: 0;
+  text-wrap: balance;
+}
+.section-head p { margin: 0; color: var(--dust); max-width: var(--measure); }
+
+/* الأطروحة */
+.thesis { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+@media (min-width: 900px) { .thesis { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } }
+
+.thesis-body p { margin: 0 0 1.4rem; max-width: var(--measure); }
+.thesis-body p:last-child { margin-bottom: 0; }
+.thesis-body .big {
+  font-family: "Aref Ruqaa", serif;
+  font-size: var(--step-2);
+  line-height: 1.85;
+  color: var(--parchment);
+}
+
+.facts { display: grid; gap: 0; align-content: start; border-top: 1px solid var(--line); }
+.fact { display: grid; gap: 0.3rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.fact dt {
+  font-family: "Aref Ruqaa", serif;
+  font-size: var(--step-3);
+  color: var(--gold);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.fact dd { margin: 0; color: var(--dust); font-size: var(--step--1); line-height: 1.8; }
+
+/* ————— الفهرس ————— */
+.catalog {
+  display: grid;
+  gap: 1px;
+  background: var(--line-soft);
+  border: 1px solid var(--line-soft);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr));
+}
+
+.star {
+  position: relative;
+  background: var(--night);
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  display: grid;
+  gap: 1.1rem;
+  /* العنوان ثم الشرح المرن ثم القراءة — لتتحاذى القراءات عبر الصف مهما اختلف طول النص */
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background 0.6s var(--ease);
+}
+.star::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -40%;
+  inset-inline-start: -25%;
+  width: 75%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--hue) 0%, transparent 68%);
+  opacity: 0.09;
+  filter: blur(14px);
+  transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+  z-index: -1;
+}
+.star:hover, .star:focus-within { background: var(--surface); }
+.star:hover::before, .star:focus-within::before { opacity: 0.26; transform: scale(1.25); }
+
+.star-top { display: flex; align-items: center; gap: 1.1rem; }
+
+.disc {
+  flex: none;
+  border-radius: 50%;
+  background: var(--hue);
+  box-shadow: 0 0 12px var(--hue), 0 0 38px color-mix(in srgb, var(--hue) 55%, transparent);
+  animation: breathe 5.5s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    filter: brightness(1); }
+  50%      { transform: scale(1.13); filter: brightness(1.28); }
+}
+
+.star h3 {
+  font-family: "Aref Ruqaa", serif;
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 1.5;
+  margin: 0;
+}
+.star .latin {
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  color: var(--dust-dim);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.star p { margin: 0; color: var(--dust); font-size: 0.92rem; line-height: 1.9; }
+
+.readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line-soft);
+  font-variant-numeric: tabular-nums;
+}
+.readout div { display: grid; gap: 0.15rem; }
+.readout dt, .readout .k {
+  font-size: 0.63rem;
+  letter-spacing: 0.13em;
+  color: var(--dust-dim);
+  margin: 0;
+}
+.readout .v {
+  font-size: 0.95rem;
+  color: var(--parchment);
+  line-height: 1.4;
+}
+.readout .v small { color: var(--dust-dim); font-size: 0.68rem; }
+
+/* ————— جهاز الغول ————— */
+.instrument {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--night), var(--void));
+}
+/* لوحة القراءة أولاً (جهة البدء في RTL) ثم المخطط */
+@media (min-width: 940px) { .instrument { grid-template-columns: minmax(0, 290px) minmax(0, 1fr); } }
+
+.instrument-side {
+  padding: clamp(1.6rem, 3vw, 2.2rem);
+  display: grid;
+  gap: 1.4rem;
+  align-content: start;
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 940px) {
+  .instrument-side {
+    border-bottom: 0;
+    border-inline-end: 1px solid var(--line);
+    /* النجم يتمدّد ليملأ ما يفيض من ارتفاع المخطط، والقراءة تثبت أسفله */
+    align-content: stretch;
+    grid-template-rows: 1fr auto auto;
+  }
+}
+
+.ghoul-stage {
+  display: grid;
+  place-items: center;
+  min-height: 148px;
+  position: relative;
+}
+.ghoul {
+  width: 74px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 26px var(--ember), 0 0 80px rgba(255, 122, 92, 0.55);
+  will-change: transform, opacity, box-shadow;
+}
+
+.live {
+  display: grid;
+  gap: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.live-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+.live-row .k { font-size: 0.66rem; letter-spacing: 0.13em; color: var(--dust-dim); }
+.live-row .v { font-size: var(--step-2); font-family: "Aref Ruqaa", serif; color: var(--gold); line-height: 1.3; }
+.live-row.dim .v { color: var(--ember); }
+
+.state {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  padding: 0.35em 0.85em;
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  color: var(--dust);
+  justify-self: start;
+  transition: color 0.5s var(--ease);
+}
+.state.eclipsing { color: var(--ember); }
+
+.side-note {
+  margin: 0;
+  font-size: 0.7rem;
+  line-height: 1.8;
+  color: var(--dust-dim);
+  align-self: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.plot-wrap { padding: clamp(1.4rem, 3vw, 2.2rem); display: grid; gap: 1rem; }
+.plot-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.plot-head span { font-size: 0.66rem; letter-spacing: 0.13em; color: var(--dust-dim); }
+#curve { width: 100%; height: clamp(220px, 34vh, 340px); display: block; }
+
+/* ————— التحوّل ————— */
+.drift { display: grid; gap: 0; counter-reset: step; }
+.step {
+  display: grid;
+  gap: 0.6rem 1.6rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  padding: clamp(1.5rem, 3vw, 2.2rem) 0;
+  border-top: 1px solid var(--line-soft);
+}
+.step:last-child { border-bottom: 1px solid var(--line-soft); }
+.step-n {
+  counter-increment: step;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--dust-dim);
+  padding-top: 0.9rem;
+  min-width: 3.5ch;
+}
+.step-n::before { content: counter(step, decimal-leading-zero); }
+.step-body { display: grid; gap: 0.5rem; }
+.step-form {
+  font-family: "Aref Ruqaa", serif;
+  font-size: var(--step-3);
+  line-height: 1.5;
+  margin: 0;
+  color: var(--parchment);
+  transition: color 0.6s var(--ease), text-shadow 0.6s var(--ease);
+}
+.step:last-child .step-form {
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(255, 195, 77, 0.35);
+}
+.step-note { margin: 0; color: var(--dust); font-size: 0.92rem; max-width: 58ch; }
+.step-when {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  color: var(--dust-dim);
+}
+
+/* ————— الخاتمة ————— */
+.coda {
+  padding: clamp(6rem, 16vh, 11rem) var(--pad) clamp(4rem, 9vh, 6rem);
+  max-width: 1400px;
+  margin-inline: auto;
+  display: grid;
+  gap: 2rem;
+  justify-items: start;
+}
+.coda blockquote {
+  margin: 0;
+  font-family: "Aref Ruqaa", serif;
+  font-size: var(--step-4);
+  line-height: 1.65;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+.coda blockquote span { color: var(--ice); text-shadow: 0 0 30px rgba(143, 217, 255, 0.35); }
+.coda p { margin: 0; color: var(--dust); max-width: var(--measure); }
+
+.foot {
+  border-top: 1px solid var(--line-soft);
+  padding: 2rem var(--pad) 3rem;
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--dust-dim);
+}
+
+/* ————— الظهور بالتمرير ————— */
+.rise {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.rise.seen { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .rise { opacity: 1; transform: none; }
+  .star-label { opacity: 1; }
+}
+</style>
+
+<div class="page" dir="rtl">
+  <div class="progress" id="progress"></div>
+
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="bar">
+    <div class="mark">أسماء في <span>السماء</span></div>
+    <nav class="nav" aria-label="أقسام الصفحة">
+      <a href="#catalog">الفهرس</a>
+      <a href="#algol">الغول</a>
+      <a href="#drift">التحوّل</a>
+      <a href="#coda">سُهيل</a>
+    </nav>
+  </header>
+
+  <main class="content">
+
+    <!-- ————— البطل ————— -->
+    <section class="hero" id="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">النجوم التي ما زال العالم ينطقها بالعربية</p>
+          <h1>سماءٌ<br>تتكلّم <span class="glow">العربية</span></h1>
+          <p class="lede">
+            حين يرفع فلكيٌّ في طوكيو أو ساو باولو رأسه الليلة ويسمّي أسطع نجم في
+            الجبّار، فإنه ينطق — دون أن يدري — كلمةً عربية عمرها ألف عام:
+            <strong>رِجْل الجوزاء</strong>. هذه صفحةٌ عن الأسماء التي بقيت.
+          </p>
+          <a class="scroll-cue" href="#thesis"><i aria-hidden="true"></i> انزل إلى السماء</a>
+        </div>
+
+        <div class="figure-frame" id="frame">
+          <p class="figure-caption">
+            كوكبة الجَبّار — وتُسمّى في التراث العربي الجَوْزاء. المواضع مرسومة من
+            الإحداثيات الفلكية الحقيقية، والنجوم تظهر بترتيب لمعانها.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ————— الأطروحة ————— -->
+    <section class="section" id="thesis">
+      <div class="thesis">
+        <div class="thesis-body rise">
+          <p class="big">
+            في القرن العاشر، جلس عبد الرحمن الصوفي أمام فهرس بطليموس اليوناني،
+            وفعل شيئاً بسيطاً وعنيداً: كتب بجانب كل نجمٍ ما كان العرب يسمّونه به.
+          </p>
+          <p>
+            لم تكن أسماء العرب ترجمةً لليونانية. كانت نظاماً آخر تماماً — نظام قومٍ
+            يقرؤون السماء لا كأساطير، بل كخريطة عمل: مواقيت السفر، ومواسم المطر،
+            واتجاه القِبلة. فالنجم الذي يظهر بعد الثريا اسمه <strong>الدَّبَران</strong>،
+            أي التابع. والنجمان اللذان يعلوان الأفق كطائرين اسمهما
+            <strong>النسر الواقع</strong> و<strong>النسر الطائر</strong>.
+          </p>
+          <p>
+            حين ترجم الأوروبيون هذه الكتب في الأندلس وصقلية، لم يترجموا الأسماء —
+            نقلوها بحروفهم كما هي، بما فيها من أخطاء النسخ. وبقيت. اليوم، العربية
+            هي أغزر مصدرٍ لأسماء النجوم اللامعة على أي خريطة سماء في العالم.
+          </p>
+        </div>
+
+        <dl class="facts rise" style="--d: 140ms">
+          <div class="fact">
+            <dt>964 م</dt>
+            <dd>سنة تأليف «صُوَر الكواكب الثابتة» لعبد الرحمن الصوفي — الكتاب الذي حمل الأسماء إلى بقية العالم.</dd>
+          </div>
+          <div class="fact">
+            <dt>1022</dt>
+            <dd>عدد النجوم في فهرس بطليموس الذي أعاد الصوفي تحقيقه ورصده، مضيفاً إليه أسماء العرب ومقارِناً أقدارها بعينه المجرّدة.</dd>
+          </div>
+          <div class="fact">
+            <dt>2016</dt>
+            <dd>السنة التي بدأ فيها الاتحاد الفلكي الدولي توحيد أسماء النجوم رسمياً — فثبّت العربية في السجل إلى الأبد.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ————— الفهرس ————— -->
+    <section class="section" id="catalog">
+      <div class="section-head rise">
+        <h2>ثمانيةٌ من الأسماء الباقية</h2>
+        <p>
+          حجم القرص المتوهّج في كل بطاقة مرسومٌ من قدر النجم الظاهري الحقيقي،
+          ولونه من درجة حرارة سطحه: الأزرق أسخن، والذهبي أبرد، والجمريّ أبردها وأضخمها.
+        </p>
+      </div>
+
+      <div class="catalog" id="catalog-grid"></div>
+    </section>
+
+    <!-- ————— الغول ————— -->
+    <section class="section" id="algol">
+      <div class="section-head rise">
+        <h2>الغُول: النجم الذي سمّاه العرب بما يفعله</h2>
+        <p>
+          في رأس كوكبة برشاوش نجمٌ سمّاه العرب <strong>الغُول</strong>. وبعد ألف عام
+          اكتشف الفلكيون السبب: إنه نجمان يدور أحدهما أمام الآخر، فيكسفه كل
+          <span class="ltr">2.867</span> يوم فيخفت النجم أمام العين ثم يعود. الاسم كان وصفاً دقيقاً.
+          الجهاز التالي يعرض دورته حيّة.
+        </p>
+      </div>
+
+      <div class="instrument rise">
+        <div class="instrument-side">
+          <div class="ghoul-stage">
+            <div class="ghoul" id="ghoul" aria-hidden="true"></div>
+          </div>
+          <div class="live">
+            <div class="live-row" id="row-mag">
+              <span class="k">القدر الظاهري الآن</span>
+              <span class="v" id="mag-out">2.12</span>
+            </div>
+            <div class="live-row">
+              <span class="k">طور الدورة</span>
+              <span class="v" id="phase-out">0.30</span>
+            </div>
+            <span class="state" id="state-out">خارج الكسوف</span>
+          </div>
+          <p class="side-note">
+            الزمن هنا مسرَّعٌ نحو 16,500 مرة: دورةٌ كاملة كل 15 ثانية بدل 2.867 يوم.
+          </p>
+        </div>
+
+        <div class="plot-wrap">
+          <div class="plot-head">
+            <span>منحنى الضوء — القدر الظاهري مقابل الزمن</span>
+            <span class="ltr">β Persei · P = 2.867321 d</span>
+          </div>
+          <canvas id="curve" role="img"
+            aria-label="منحنى ضوء نجم الغول: سطوع ثابت عند القدر 2.12 يتخلله انخفاض حاد إلى 3.39 كل 2.867 يوم."></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- ————— التحوّل ————— -->
+    <section class="section" id="drift">
+      <div class="section-head rise">
+        <h2>كيف صار «يد الجوزاء» اسمه <span class="ltr">Betelgeuse</span></h2>
+        <p>
+          أشهر أسماء النجوم في العالم هو في الأصل خطأ نسخٍ عربيٌّ لاتيني. هذه رحلته،
+          خطوةً خطوة — وهي تسلسلٌ حقيقي، كل خطوة فيه سبب التي تليها.
+        </p>
+      </div>
+
+      <div class="drift">
+        <div class="step rise">
+          <span class="step-n" aria-hidden="true"></span>
+          <div class="step-body">
+            <p class="step-form">يَد الجَوْزاء</p>
+            <span class="step-when">الاسم العربي · قبل القرن العاشر</span>
+            <p class="step-note">أي «يد الجوزاء» — المنكب الذي يعلو الكوكبة. اسمٌ وصفيٌّ مباشر لموضع النجم من الشكل.</p>
+          </div>
+        </div>
+        <div class="step rise" style="--d: 90ms">
+          <span class="step-n" aria-hidden="true"></span>
+          <div class="step-body">
+            <p class="step-form ltr">Yad al-Jawzā’</p>
+            <span class="step-when">النقل الحرفي · مترجمو الأندلس</span>
+            <p class="step-note">لم يُترجَم المعنى، بل نُقل النطق بحروف لاتينية. وهنا بدأت المشكلة: الحروف العربية غير المنقوطة تتشابه.</p>
+          </div>
+        </div>
+        <div class="step rise" style="--d: 180ms">
+          <span class="step-n" aria-hidden="true"></span>
+          <div class="step-body">
+            <p class="step-form ltr">Bedalgeuze</p>
+            <span class="step-when">التصحيف · مخطوطات القرون الوسطى</span>
+            <p class="step-note">قرأ الناسخ الأوروبي «يـ» على أنها «بـ» — نقطةٌ تحت الحرف بدل نقطتين. فصارت «يد» تُقرأ «بد»، وثبت الخطأ في كل نسخة تالية.</p>
+          </div>
+        </div>
+        <div class="step rise" style="--d: 270ms">
+          <span class="step-n" aria-hidden="true"></span>
+          <div class="step-body">
+            <p class="step-form ltr">Betelgeuse</p>
+            <span class="step-when">الصيغة المعتمدة اليوم · الاتحاد الفلكي الدولي</span>
+            <p class="step-note">تهذّبت الصيغة عبر القرون واستقرّت هكذا. النجم نفسه لم يتغيّر؛ تغيّر فمُ من ينطقه.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ————— الخاتمة ————— -->
+    <section class="coda" id="coda">
+      <blockquote class="rise">
+        وأمّا <span>سُهَيْل</span>، فلا يراه أهل الشمال، ويراه أهل الجنوب كلَّ ليلة.
+      </blockquote>
+      <p class="rise" style="--d: 120ms">
+        سُهيل — <span class="ltr">Canopus</span> — ثاني ألمع نجم في السماء، وأشهر نجمٍ
+        في الشعر العربي، لأنه لا يُرى إلا من خطوط العرض الجنوبية. كان طلوعه في الجزيرة
+        إيذاناً بانكسار الحرّ وبَدء موسم السفر. اسمٌ لم يدخل الفهرس الغربي، لكنه بقي
+        في اللغة التي رصدته أولاً.
+      </p>
+    </section>
+
+    <footer class="foot">
+      <span>أسماء في السماء · صفحةٌ عن أثر العربية في فهرس النجوم</span>
+      <span class="ltr">Aref Ruqaa · IBM Plex Sans Arabic</span>
+    </footer>
+  </main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ═══════════ بيانات النجوم ═══════════ */
+  // القدر الظاهري والبُعد والنوع الطيفي — قيم رصدية حقيقية.
+  const STARS = [
+    { ar: "الدَّبَران", la: "Aldebaran", con: "الثَّور", mag: 0.86, ly: 65, sp: "K5 III", hue: "gold",
+      note: "سُمّي بذلك لأنه يَدبُر الثريا، أي يتبعها في مسيرها عبر السماء ليلةً بعد ليلة. عملاقٌ برتقالي بارد اتّسع قطره حتى صار أربعين ضعف شمسنا." },
+    { ar: "رِجْل الجَوْزاء", la: "Rigel", con: "الجَبّار", mag: 0.13, ly: 860, sp: "B8 Ia", hue: "ice",
+      note: "قدم الجوزاء اليسرى. فوق-عملاقٍ أزرق يشعّ عشرات آلاف أضعاف الشمس، ولذلك يبدو أسطع نجم في الكوكبة رغم بُعده الهائل." },
+    { ar: "النَّسْر الواقِع", la: "Vega", con: "الشَّلْياق", mag: 0.03, ly: 25, sp: "A0 V", hue: "ice",
+      note: "النسر الذي ضمّ جناحيه فوقع. الاسم الغربي مأخوذ من «الواقع» وحدها. كان قُطباً شمالياً قبل 12 ألف سنة، وسيعود إليه بعد مثلها." },
+    { ar: "النَّسْر الطائِر", la: "Altair", con: "العُقاب", mag: 0.76, ly: 17, sp: "A7 V", hue: "ice",
+      note: "النسر الباسط جناحيه، مقابل الواقع. يدور حول محوره في نحو تسع ساعات — بسرعةٍ تكفي لأن تنبعج كرته فيصير قطره عند خط استوائه أوسع من قطره بين قطبيه." },
+    { ar: "إبْط الجَوْزاء", la: "Betelgeuse", con: "الجَبّار", mag: 0.50, ly: 550, sp: "M2 Iab", hue: "ember",
+      note: "منكب الجوزاء. فوق-عملاقٍ أحمر لو وُضع مكان الشمس لابتلع مدار المريخ. سطوعه يتذبذب بين 0.0 و1.6، وهو مرشّحٌ لينفجر مستعراً أعظم." },
+    { ar: "الغُول", la: "Algol", con: "بَرشاوُش", mag: 2.12, ly: 90, sp: "B8 V", hue: "ember",
+      note: "رأس الغول. نظامٌ كسوفيّ يخفت كل 2.867 يوم بمقدار يراه الناظر بعينه المجرّدة — وهو ما التقطه راصدو العرب فسمّوه باسم المتغيّر المخيف." },
+    { ar: "فَم الحُوت", la: "Fomalhaut", con: "الحُوت الجَنوبي", mag: 1.16, ly: 25, sp: "A3 V", hue: "ice",
+      note: "فم السمكة. يلمع وحيداً في رقعةٍ خالية من السماء الجنوبية، ويحيط به قرصٌ غباري ضخم صوّرته المراصد مباشرةً — نظامٌ كوكبيّ في طور التكوّن." },
+    { ar: "الذَّنَب", la: "Deneb", con: "الدَّجاجة", mag: 1.25, ly: 2600, sp: "A2 Ia", hue: "ice",
+      note: "ذنب الدجاجة. أبعد نجمٍ لامع نراه بالعين المجرّدة: ضوؤه الذي يصلك الليلة غادره قبل أن تُبنى معظم مدن العالم القائمة اليوم." }
+  ];
+
+  const HUE = { gold: "#ffc34d", ice: "#8fd9ff", ember: "#ff7a5c" };
+
+  const grid = document.getElementById("catalog-grid");
+  grid.innerHTML = STARS.map((s, i) => {
+    const r = Math.max(9, 27 - s.mag * 7).toFixed(1);
+    return `<article class="star rise" style="--hue:${HUE[s.hue]}; --d:${i * 60}ms">
+      <div class="star-top">
+        <span class="disc" style="width:${r}px;height:${r}px;animation-delay:${(i * 0.7).toFixed(2)}s"></span>
+        <div>
+          <h3>${s.ar}</h3>
+          <span class="latin ltr">${s.la}</span>
+        </div>
+      </div>
+      <p>${s.note}</p>
+      <div class="readout">
+        <div><span class="k">القدر الظاهري</span><span class="v ltr">${s.mag.toFixed(2)}</span></div>
+        <div><span class="k">البُعد</span><span class="v ltr">${s.ly.toLocaleString("en")} <small>ly</small></span></div>
+        <div><span class="k">الكوكبة</span><span class="v">${s.con}</span></div>
+      </div>
+    </article>`;
+  }).join("");
+
+  /* ═══════════ الظهور بالتمرير ═══════════ */
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add("seen"); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".rise").forEach((el) => io.observe(el));
+
+  /* ═══════════ شريط التقدّم ═══════════ */
+  const bar = document.getElementById("progress");
+  const onScroll = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ═══════════ السماء والكوكبة ═══════════ */
+  // إحداثيات الجبّار: المطلع المستقيم والميل بالدرجات، منقولة إلى إطار 0..1.
+  const ORION = [
+    { x: 0.000, y: 0.000, mag: 0.50, c: "#ff8a63" },   // إبط الجوزاء
+    { x: 0.739, y: 0.062, mag: 1.64, c: "#bcd8ff" },   // النجيد
+    { x: 0.570, y: 0.451, mag: 2.23, c: "#cfe4ff" },   // المنطقة
+    { x: 0.467, y: 0.504, mag: 1.69, c: "#cfe4ff" },   // النظام
+    { x: 0.354, y: 0.547, mag: 1.77, c: "#cfe4ff" },   // النطاق
+    { x: 0.182, y: 1.000, mag: 2.06, c: "#c8e0ff" },   // السيف
+    { x: 1.000, y: 0.914, mag: 0.13, c: "#d8ecff" }    // رجل الجوزاء
+  ];
+  const LINKS = [[0, 1], [0, 4], [1, 2], [2, 3], [3, 4], [4, 5], [2, 6]];
+
+  // نجوم النطاق الثلاثة متلاصقة، فتُسمّى كوحدة واحدة — وهو ما يعنيه اسمها أصلاً
+  const LABELS = [
+    { at: 0, ar: "إبْط الجَوْزاء",  la: "BETELGEUSE", dx: 16, dy: -4 },
+    { at: 1, ar: "النَّجيد",        la: "BELLATRIX",  dx: 16, dy: 0 },
+    { at: 3, ar: "مِنطَقة الجَوْزاء", la: "ALNITAK · ALNILAM · MINTAKA", dx: 20, dy: 30 },
+    { at: 5, ar: "السَّيف",         la: "SAIPH",      dx: 16, dy: 10 },
+    { at: 6, ar: "رِجْل الجَوْزاء",  la: "RIGEL",      dx: 16, dy: 10 }
+  ];
+
+  const cv = document.getElementById("sky");
+  const ctx = cv.getContext("2d");
+  const frame = document.getElementById("frame");
+
+  let W = 0, H = 0, dust = [], box = null, labels = [];
+
+  function makeLabels() {
+    labels.forEach((l) => l.el.remove());
+    labels = LABELS.map((L) => {
+      const el = document.createElement("div");
+      el.className = "star-label";
+      el.innerHTML = `<b>${L.ar}</b><em>${L.la}</em>`;
+      frame.appendChild(el);
+      return { el, spec: L };
+    });
+  }
+
+  function layout() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // غبار النجوم الخلفي — ثلاث طبقات بعمقٍ مختلف للتوازي
+    const count = Math.round(Math.min(560, (W * H) / 2600));
+    dust = Array.from({ length: count }, () => {
+      const depth = Math.random();
+      return {
+        x: Math.random(), y: Math.random(),
+        r: 0.35 + depth * 1.25,
+        a: 0.18 + depth * 0.6,
+        depth: 0.25 + depth,
+        tw: Math.random() * Math.PI * 2,
+        sp: 0.35 + Math.random() * 0.9,
+        warm: Math.random() < 0.16
+      };
+    });
+
+    // إطار الكوكبة: نسبة الأبعاد الحقيقية للجبّار ≈ 0.595 عرضاً إلى ارتفاع
+    const r = frame.getBoundingClientRect();
+    const h = Math.min(r.height * 0.88, H * (W < 900 ? 0.40 : 0.66));
+    box = { h, w: h * 0.595, cx: r.left + r.width / 2, cy: r.top + r.height / 2 + scrollY };
+  }
+
+  function orionPoint(s) {
+    return {
+      x: box.cx - box.w / 2 + s.x * box.w,
+      y: box.cy - scrollY - box.h / 2 + s.y * box.h
+    };
+  }
+
+  // ترتيب الظهور: الألمع أولاً، كما تفعل العين حين يعتم المكان
+  const order = ORION.map((s, i) => i).sort((a, b) => ORION[a].mag - ORION[b].mag);
+  const START = 500, GAP = 190, FADE = 800;
+  const LINE_START = START + GAP * ORION.length + 260, LINE_DUR = 1900;
+
+  let t0 = performance.now();
+  let mx = 0, my = 0, tx = 0, ty = 0;
+
+  addEventListener("pointermove", (e) => {
+    tx = (e.clientX / innerWidth - 0.5) * 2;
+    ty = (e.clientY / innerHeight - 0.5) * 2;
+  }, { passive: true });
+
+  const ease = (t) => 1 - Math.pow(1 - t, 3);
+
+  function draw(now) {
+    const el = reduced ? 1e6 : now - t0;
+    const t = now / 1000;
+    mx += (tx - mx) * 0.045;
+    my += (ty - my) * 0.045;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // الغبار
+    for (const d of dust) {
+      const tw = 0.62 + 0.38 * Math.sin(t * d.sp + d.tw);
+      const px = d.x * W + mx * 18 * d.depth;
+      const py = d.y * H + my * 18 * d.depth - (scrollY * 0.035 * d.depth) % (H + 60);
+      ctx.globalAlpha = d.a * tw * Math.min(1, el / 1400);
+      ctx.fillStyle = d.warm ? "#ffdca8" : "#dfe6ff";
+      ctx.beginPath();
+      ctx.arc(px, ((py % (H + 60)) + H + 60) % (H + 60) - 30, d.r, 0, 6.284);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    if (!box) return requestAnimationFrame(draw);
+    const pts = ORION.map(orionPoint);
+    const off = { x: mx * 26, y: my * 26 };
+
+    // خطوط الكوكبة — تُرسم تباعاً بعد اكتمال النجوم
+    const lp = Math.max(0, Math.min(1, (el - LINE_START) / LINE_DUR));
+    if (lp > 0) {
+      const total = LINKS.length;
+      ctx.lineWidth = 1;
+      ctx.lineCap = "round";
+      for (let i = 0; i < total; i++) {
+        const seg = Math.max(0, Math.min(1, lp * total - i));
+        if (seg <= 0) break;
+        const a = pts[LINKS[i][0]], b = pts[LINKS[i][1]];
+        const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+        g.addColorStop(0, "rgba(255,195,77,0.42)");
+        g.addColorStop(1, "rgba(143,217,255,0.42)");
+        ctx.strokeStyle = g;
+        ctx.beginPath();
+        ctx.moveTo(a.x + off.x, a.y + off.y);
+        ctx.lineTo(a.x + (b.x - a.x) * ease(seg) + off.x, a.y + (b.y - a.y) * ease(seg) + off.y);
+        ctx.stroke();
+      }
+    }
+
+    // نجوم الكوكبة
+    const appearOf = new Array(ORION.length).fill(0);
+    order.forEach((idx, rank) => {
+      const s = ORION[idx], p = pts[idx];
+      const appear = Math.max(0, Math.min(1, (el - (START + rank * GAP)) / FADE));
+      appearOf[idx] = appear;
+      if (appear <= 0) return;
+      const a = ease(appear);
+      const tw = 0.88 + 0.12 * Math.sin(t * 1.4 + idx);
+      const r = (7.5 - s.mag * 1.9) * a * tw;
+      const x = p.x + off.x, y = p.y + off.y;
+
+      const halo = ctx.createRadialGradient(x, y, 0, x, y, r * 7);
+      halo.addColorStop(0, s.c);
+      halo.addColorStop(0.16, s.c + "55");
+      halo.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.globalAlpha = 0.5 * a;
+      ctx.fillStyle = halo;
+      ctx.beginPath(); ctx.arc(x, y, r * 7, 0, 6.284); ctx.fill();
+
+      ctx.globalAlpha = a;
+      ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.arc(x, y, r * 0.62, 0, 6.284); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    // اللوحات مرساة على نجومها، وتظهر بعد أن يستقر ضوء النجم
+    if (labels.length) {
+      const fr = frame.getBoundingClientRect();
+      for (const { el: node, spec } of labels) {
+        const p = pts[spec.at];
+        node.style.left = (p.x + off.x - fr.left + spec.dx) + "px";
+        node.style.top = (p.y + off.y - fr.top + spec.dy) + "px";
+        if (appearOf[spec.at] > 0.55) node.classList.add("on");
+      }
+    }
+
+    if (!reduced) requestAnimationFrame(draw);
+  }
+
+  /* ═══════════ جهاز الغول ═══════════ */
+  const PERIOD = 2.867321;      // اليوم
+  const BASE = 2.12, PRIMARY = 3.39, SECONDARY = 2.21;
+
+  function dip(phase, center, half, depth) {
+    let d = Math.abs((((phase - center + 0.5) % 1) + 1) % 1 - 0.5);
+    if (d > half) return 0;
+    return depth * Math.pow(Math.cos((d / half) * Math.PI / 2), 1.7);
+  }
+  // القدر يزداد رقمه كلما خفت النجم — لذلك الكسوف إضافة، لا طرح.
+  const magAt = (p) => BASE + dip(p, 0, 0.072, PRIMARY - BASE) + dip(p, 0.5, 0.072, SECONDARY - BASE);
+
+  const cur = document.getElementById("curve");
+  const cx2 = cur.getContext("2d");
+  const ghoul = document.getElementById("ghoul");
+  const magOut = document.getElementById("mag-out");
+  const phaseOut = document.getElementById("phase-out");
+  const stateOut = document.getElementById("state-out");
+  const rowMag = document.getElementById("row-mag");
+
+  let cw = 0, ch = 0;
+  function sizeCurve() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const r = cur.getBoundingClientRect();
+    cw = r.width; ch = r.height;
+    cur.width = Math.round(cw * dpr);
+    cur.height = Math.round(ch * dpr);
+    cx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  const PAD = { t: 18, b: 30, l: 14, r: 46 };
+  const CYCLES = 2;
+  // الطور 0 هو قعر الكسوف، فنبدأ المحور بعده كي لا يُقطع المنحنى في منتصف انخفاضه
+  const OFF = 0.3;
+  const yFor = (m) => PAD.t + ((m - 1.95) / (3.55 - 1.95)) * (ch - PAD.t - PAD.b);
+  // الزمن يتقدّم نحو اليسار تبعاً لاتجاه الصفحة، ومحور القدر على اليمين
+  const xFor = (u) => (cw - PAD.r) - u * (cw - PAD.l - PAD.r);
+
+  function drawCurve(playhead) {
+    cx2.clearRect(0, 0, cw, ch);
+
+    // الشبكة: خطوط القدر
+    cx2.font = "10px 'IBM Plex Sans Arabic', sans-serif";
+    cx2.textBaseline = "middle";
+    for (let m = 2.0; m <= 3.5; m += 0.5) {
+      const y = yFor(m);
+      cx2.strokeStyle = "rgba(143,150,214,0.10)";
+      cx2.lineWidth = 1;
+      cx2.beginPath(); cx2.moveTo(PAD.l, y); cx2.lineTo(cw - PAD.r, y); cx2.stroke();
+      cx2.fillStyle = "#676a92";
+      cx2.textAlign = "left";
+      cx2.fillText(m.toFixed(2), cw - PAD.r + 9, y);
+    }
+    // الشبكة: حدود الدورات
+    for (let c = 0; c <= CYCLES; c++) {
+      const x = xFor(c / CYCLES);
+      cx2.strokeStyle = "rgba(143,150,214,0.10)";
+      cx2.beginPath(); cx2.moveTo(x, PAD.t); cx2.lineTo(x, ch - PAD.b); cx2.stroke();
+      cx2.fillStyle = "#676a92";
+      cx2.textAlign = "center";
+      cx2.fillText((c * PERIOD).toFixed(1) + "d", x, ch - PAD.b + 14);
+    }
+
+    // المنحنى + التعبئة تحته
+    const N = Math.max(160, Math.round(cw));
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const u = i / N;
+      pts.push([xFor(u), yFor(magAt(u * CYCLES + OFF))]);
+    }
+
+    const fill = cx2.createLinearGradient(0, PAD.t, 0, ch - PAD.b);
+    fill.addColorStop(0, "rgba(255,195,77,0.16)");
+    fill.addColorStop(1, "rgba(255,122,92,0.02)");
+    cx2.beginPath();
+    cx2.moveTo(pts[0][0], ch - PAD.b);
+    pts.forEach(([x, y]) => cx2.lineTo(x, y));
+    cx2.lineTo(pts[pts.length - 1][0], ch - PAD.b);
+    cx2.closePath();
+    cx2.fillStyle = fill;
+    cx2.fill();
+
+    cx2.beginPath();
+    pts.forEach(([x, y], i) => (i ? cx2.lineTo(x, y) : cx2.moveTo(x, y)));
+    cx2.strokeStyle = "#ffc34d";
+    cx2.lineWidth = 1.6;
+    cx2.shadowColor = "rgba(255,195,77,0.55)";
+    cx2.shadowBlur = 12;
+    cx2.stroke();
+    cx2.shadowBlur = 0;
+
+    // مؤشّر اللحظة الحالية
+    const u = playhead / CYCLES;
+    const px = xFor(u), py = yFor(magAt(playhead + OFF));
+    cx2.strokeStyle = "rgba(242,235,220,0.22)";
+    cx2.setLineDash([2, 4]);
+    cx2.beginPath(); cx2.moveTo(px, PAD.t); cx2.lineTo(px, ch - PAD.b); cx2.stroke();
+    cx2.setLineDash([]);
+
+    cx2.fillStyle = "#f2ebdc";
+    cx2.shadowColor = "#ffc34d";
+    cx2.shadowBlur = 16;
+    cx2.beginPath(); cx2.arc(px, py, 4, 0, 6.284); cx2.fill();
+    cx2.shadowBlur = 0;
+  }
+
+  const SPEED = 1 / 15000;   // دورة كاملة كل 15 ثانية
+  function tickAlgol(now) {
+    const p = reduced ? 0.55 : (now * SPEED) % CYCLES;
+    drawCurve(p);
+
+    const m = magAt(p + OFF);
+    const deep = m > 2.4;
+    magOut.textContent = m.toFixed(2);
+    phaseOut.textContent = ((p + OFF) % 1).toFixed(2);
+    rowMag.classList.toggle("dim", deep);
+    stateOut.textContent = deep ? "في الكسوف" : "خارج الكسوف";
+    stateOut.classList.toggle("eclipsing", deep);
+
+    // السطوع الظاهري يتناسب مع 10 أس (−القدر/2.5)
+    const rel = Math.pow(10, -(m - BASE) / 2.5);
+    ghoul.style.opacity = (0.42 + 0.58 * rel).toFixed(3);
+    ghoul.style.transform = `scale(${(0.72 + 0.28 * rel).toFixed(3)})`;
+    ghoul.style.boxShadow = `0 0 ${(10 + 30 * rel).toFixed(0)}px var(--ember), 0 0 ${(28 + 70 * rel).toFixed(0)}px rgba(255,122,92,${(0.25 + 0.4 * rel).toFixed(2)})`;
+
+    if (!reduced) requestAnimationFrame(tickAlgol);
+  }
+
+  /* ═══════════ الإقلاع ═══════════ */
+  function boot() {
+    layout();
+    sizeCurve();
+    requestAnimationFrame(draw);
+    requestAnimationFrame(tickAlgol);
+  }
+
+  makeLabels();
+  let rt;
+  addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      layout();
+      sizeCurve();
+      // في وضع تقليل الحركة لا تدور حلقة الرسم، فنعيد الرسم يدوياً بعد التحجيم
+      if (reduced) { requestAnimationFrame(draw); requestAnimationFrame(tickAlgol); }
+    }, 140);
+  });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(boot);
+  } else {
+    boot();
+  }
+})();
+</script>
