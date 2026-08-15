@@ -52,27 +52,27 @@ BRANCHES = [
 
 MENU = [
     ("الصمونات", "صمونة", [
-        ("صمونة كباب لحم",   "٢٢٣", "٩",  "kabab_lahm.webp"),
-        ("صمونة شيش طاووق",  "٢١٩", "٩",  "shish_tawook.webp"),
-        ("صمونة كباب دجاج",  "٢٢٠", "٩",  None),
+        ("صمونة كباب لحم",   "٢٢٣", "٩",  "kabab_lahm.webp",   "طحينة حمراء أو بيضاء"),
+        ("صمونة شيش طاووق",  "٢١٩", "٩",  "shish_tawook.webp", None),
+        ("صمونة كباب دجاج",  "٢٢٠", "٩",  "kabab_dajaj.webp",  None),
     ]),
     ("البوكسات", "بوكس", [
-        ("فروجة قصدير",  "٩٢٠",  "٢٥", "frooja.webp"),
-        ("بوكس الجمعات", "٢٥٠٠", "٦٩", None),
+        ("فروجة قصدير",  "٩٢٠",  "٢٥", "frooja.webp", "نصف دجاجة بالخلطة السرية"),
+        ("بوكس الجمعات", "٢٥٠٠", "٦٩", None,          None),
     ]),
     ("المقبلات", "مقبلات", [
-        ("بطاطس قصدير", "٣٠٠", "٦",      "batates.webp"),
-        ("أجنحة قصدير", "٢٢٠", "٨ / ٢٢", None),
-        ("حمص",         "٣٤٠", "٥",      None),
+        ("بطاطس قصدير", "٣٠٠", "٦",      "batates.webp", None),
+        ("أجنحة قصدير", "٢٢٠", "٨ / ٢٢", "wings.webp",   "٦ قطع أو ١٨ قطعة"),
+        ("حمص",         "٣٤٠", "٥",      "hummus.webp",  None),
     ]),
     ("الصوصات", "صوص", [
-        ("صوص ثوم",   "٧٠", "٢", None),
-        ("صوص قصدير", "٦٠", "٢", "sauce.webp"),
+        ("صوص ثوم",   "٧٠", "٢", "sauce_thoom.webp", None),
+        ("صوص قصدير", "٦٠", "٢", "sauce.webp",       None),
     ]),
     ("المشروبات", "مشروب", [
-        ("فيمتو قصدير",    "١٣٠", "٣", None),
-        ("مشروبات غازية",  "١٥٠", "٣", None),
-        ("ماء",            None,  "١", None),
+        ("فيمتو قصدير",    "١٣٠", "٣", None, None),
+        ("مشروبات غازية",  "١٥٠", "٣", None, None),
+        ("ماء",            None,  "١", None, None),
     ]),
 ]
 
@@ -110,12 +110,13 @@ def branch_card(b, i):
   </div>
 </article>"""
 
-def menu_item(name, cal, price, pic, idx):
+def menu_item(name, cal, price, pic, note, idx):
     if pic:
         media = f'<img class="it-img" src="{img(pic)}" alt="{name}" loading="lazy" decoding="async">'
     else:
         media = '<span class="it-img it-blank" aria-hidden="true"></span>'
-    cals = f'<span class="it-cal">{cal} سعرة</span>' if cal else ""
+    meta = " · ".join(x for x in ((f"{cal} سعرة" if cal else None), note) if x)
+    cals = f'<span class="it-cal">{meta}</span>' if meta else ""
     return f"""<li class="it reveal" style="--d:{idx*40}ms">
   {media}
   <span class="it-body"><span class="it-name">{name}</span>{cals}</span>
@@ -426,7 +427,7 @@ ul{{margin:0; padding:0; list-style:none}}
     </div>
     <div class="chips" id="chips">{"".join(chips)}</div>
     {chr(10).join(sections)}
-    <p class="note">الأسعار منقولة من منيو الفرع نفسه — لا من تطبيقات التوصيل، لأن أسعارها أعلى. الصور من مقاطع قصدير على تيك توك وانستقرام، والأطباق اللي ما لها صورة معروضة بختم قصدير.</p>
+    <p class="note">الأسعار منقولة من منيو الفرع نفسه — لا من تطبيقات التوصيل، لأن أسعارها أعلى. الصور من صور المطعم الرسمية، والأطباق اللي ما لها صورة معروضة بختم قصدير.</p>
   </div>
 
   <footer class="foot">
