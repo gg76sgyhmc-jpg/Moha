@@ -54,11 +54,11 @@ MENU = [
     ("الصمونات", "صمونة", [
         ("صمونة كباب لحم",   "٢٢٣", "٩",  "kabab_lahm.webp"),
         ("صمونة شيش طاووق",  "٢١٩", "٩",  "shish_tawook.webp"),
-        ("صمونة كباب دجاج",  "٢٢٠", "٩",  "kabab_dajaj.webp"),
+        ("صمونة كباب دجاج",  "٢٢٠", "٩",  None),
     ]),
     ("البوكسات", "بوكس", [
         ("فروجة قصدير",  "٩٢٠",  "٢٥", "frooja.webp"),
-        ("بوكس الجمعات", "٢٥٠٠", "٦٩", "box_jamaat.webp"),
+        ("بوكس الجمعات", "٢٥٠٠", "٦٩", None),
     ]),
     ("المقبلات", "مقبلات", [
         ("بطاطس قصدير", "٣٠٠", "٦",      "batates.webp"),
@@ -66,7 +66,7 @@ MENU = [
         ("حمص",         "٣٤٠", "٥",      None),
     ]),
     ("الصوصات", "صوص", [
-        ("صوص ثوم",   "٧٠", "٢", "sauce_thoom.webp"),
+        ("صوص ثوم",   "٧٠", "٢", None),
         ("صوص قصدير", "٦٠", "٢", "sauce.webp"),
     ]),
     ("المشروبات", "مشروب", [
@@ -138,38 +138,40 @@ HTML = f"""<title>قصدير QASDIR</title>
 {FONT_CSS}
 
 :root{{
-  --ground:#EAE6DE; --surface:#FFFFFF; --surface-2:#F4F1EA;
-  --ink:#16130F; --ink-2:#5D5449; --ink-3:#8C8377;
-  --espresso:#3A281C; --on-espresso:#F6EEE1;
-  --tan:#9C6B2F; --tan-soft:#C79A5E;
-  --foil-a:#C9C6BE; --foil-b:#FBFAF7; --foil-c:#A9A69E;
-  --line:rgba(22,19,15,.11); --line-2:rgba(22,19,15,.06);
-  --shadow:0 1px 2px rgba(22,19,15,.05), 0 10px 26px -14px rgba(22,19,15,.30);
-  --shadow-lift:0 2px 4px rgba(22,19,15,.06), 0 20px 40px -18px rgba(22,19,15,.36);
+  --ground:#E7E9EA; --surface:#FFFFFF; --surface-2:#F1F3F4;
+  --ink:#0D0E0F; --ink-2:#51565A; --ink-3:#82888D;
+  --onyx:#0D0E0F; --on-onyx:#F4F6F7;
+  --steel:#4B5257;
+  --foil-a:#9CA3A8; --foil-b:#FCFDFD; --foil-c:#7E868C;
+  --line:rgba(13,14,15,.12); --line-2:rgba(13,14,15,.06);
+  --shadow:0 1px 2px rgba(13,14,15,.05), 0 10px 26px -14px rgba(13,14,15,.30);
+  --shadow-lift:0 2px 4px rgba(13,14,15,.07), 0 20px 40px -18px rgba(13,14,15,.38);
+  --metal:linear-gradient(135deg,#8B9399 0%,#F3F6F7 26%,#AEB6BB 48%,#FAFCFC 66%,#969EA4 100%);
+  --on-metal:#0C0D0E;
   --logo:url({png('logo_dark.png')});
   --r:16px; --r-lg:22px;
   --step:clamp(1rem,.86rem + .6vw,1.14rem);
 }}
 @media (prefers-color-scheme:dark){{
   :root:not([data-theme="light"]){{
-    --ground:#121110; --surface:#1B1917; --surface-2:#232020;
-    --ink:#F3EEE5; --ink-2:#A79D90; --ink-3:#7C7367;
-    --espresso:#EEDFC6; --on-espresso:#1B1512;
-    --tan:#E2BA80; --tan-soft:#B08D5E;
-    --foil-a:#4C4944; --foil-b:#938F86; --foil-c:#3B3833;
-    --line:rgba(243,238,229,.13); --line-2:rgba(243,238,229,.07);
+    --ground:#0B0C0D; --surface:#161819; --surface-2:#1E2123;
+    --ink:#EFF1F2; --ink-2:#A0A6AB; --ink-3:#767C81;
+    --onyx:#E3E7E9; --on-onyx:#0D0E0F;
+    --steel:#C3CACF;
+    --foil-a:#5A6166; --foil-b:#C2C9CE; --foil-c:#41474B;
+    --line:rgba(239,241,242,.14); --line-2:rgba(239,241,242,.07);
     --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 30px -16px rgba(0,0,0,.8);
     --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 24px 48px -20px rgba(0,0,0,.9);
     --logo:url({png('logo_cream.png')});
   }}
 }}
 :root[data-theme="dark"]{{
-  --ground:#121110; --surface:#1B1917; --surface-2:#232020;
-  --ink:#F3EEE5; --ink-2:#A79D90; --ink-3:#7C7367;
-  --espresso:#EEDFC6; --on-espresso:#1B1512;
-  --tan:#E2BA80; --tan-soft:#B08D5E;
-  --foil-a:#4C4944; --foil-b:#938F86; --foil-c:#3B3833;
-  --line:rgba(243,238,229,.13); --line-2:rgba(243,238,229,.07);
+  --ground:#0B0C0D; --surface:#161819; --surface-2:#1E2123;
+  --ink:#EFF1F2; --ink-2:#A0A6AB; --ink-3:#767C81;
+  --onyx:#E3E7E9; --on-onyx:#0D0E0F;
+  --steel:#C3CACF;
+  --foil-a:#5A6166; --foil-b:#C2C9CE; --foil-c:#41474B;
+  --line:rgba(239,241,242,.14); --line-2:rgba(239,241,242,.07);
   --shadow:0 1px 2px rgba(0,0,0,.5), 0 12px 30px -16px rgba(0,0,0,.8);
   --shadow-lift:0 2px 6px rgba(0,0,0,.55), 0 24px 48px -20px rgba(0,0,0,.9);
   --logo:url({png('logo_cream.png')});
@@ -196,7 +198,7 @@ p{{margin:0}}
 a{{color:inherit; text-decoration:none}}
 img{{max-width:100%; display:block}}
 ul{{margin:0; padding:0; list-style:none}}
-:focus-visible{{outline:2.5px solid var(--tan); outline-offset:3px; border-radius:6px}}
+:focus-visible{{outline:2.5px solid var(--steel); outline-offset:3px; border-radius:6px}}
 .ic{{width:20px;height:20px;flex:none}} .ic.sm{{width:17px;height:17px}} .ic.xs{{width:14px;height:14px}}
 
 .wrap{{position:relative; z-index:1; width:min(100% - 28px,540px); margin-inline:auto; padding-block:22px 56px}}
@@ -213,15 +215,15 @@ ul{{margin:0; padding:0; list-style:none}}
 .lockup{{position:absolute; inset-inline:0; bottom:0; padding:0 22px 20px; z-index:2; text-align:center}}
 .mark{{width:min(64%,226px); aspect-ratio:900/546; margin-inline:auto;
   -webkit-mask:var(--logo) no-repeat center/contain; mask:var(--logo) no-repeat center/contain;
-  background:linear-gradient(100deg,#EFE7DA 18%,#FFFDF8 34%,#C9BCA6 50%,#FFFDF8 66%,#EFE7DA 82%);
+  background:linear-gradient(100deg,#B9C0C5 16%,#FDFEFE 33%,#8C949A 50%,#FDFEFE 67%,#B9C0C5 84%);
   background-size:280% 100%; animation:foil 7s cubic-bezier(.5,0,.5,1) 1.1s infinite}}
 .tag{{margin-top:9px; font-family:'Rubik Ar',sans-serif; font-weight:500; font-size:.95rem;
-  color:#E9DCC6; letter-spacing:.01em; text-shadow:0 1px 12px rgba(0,0,0,.6)}}
+  color:#DDE2E5; letter-spacing:.01em; text-shadow:0 1px 12px rgba(0,0,0,.6)}}
 .facts{{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:14px 16px 16px; background:var(--surface)}}
 .fact{{display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px;
   background:var(--surface-2); border:1px solid var(--line-2); font-size:.8rem; color:var(--ink-2); font-weight:500}}
 .fact b{{color:var(--ink); font-variant-numeric:tabular-nums}}
-.fact .ic{{color:var(--tan)}}
+.fact .ic{{color:var(--steel)}}
 
 /* ---------- tabs ---------- */
 .tabs{{position:sticky; top:10px; z-index:20; margin:18px 0 20px; padding:5px;
@@ -230,13 +232,13 @@ ul{{margin:0; padding:0; list-style:none}}
   border:1px solid var(--line); box-shadow:var(--shadow); backdrop-filter:blur(14px) saturate(1.3)}}
 .tabs{{overflow:hidden}}
 .tabs::before{{content:""; position:absolute; z-index:0; top:5px; bottom:5px; inset-inline-start:5px; width:calc(50% - 7px);
-  border-radius:999px; background:var(--espresso); transition:transform .42s cubic-bezier(.22,1,.36,1)}}
+  border-radius:999px; background:var(--onyx); transition:transform .42s cubic-bezier(.22,1,.36,1)}}
 .tabs[data-at="menu"]::before{{transform:translateX(calc(-100% - 4px))}}
 .tab{{position:relative; z-index:1; display:flex; align-items:center; justify-content:center; gap:8px;
   min-height:44px; border:0; background:none; cursor:pointer; border-radius:999px;
   font-family:'Rubik Ar',sans-serif; font-size:.95rem; font-weight:500; color:var(--ink-2);
   transition:color .3s ease}}
-.tab[aria-selected="true"]{{color:var(--on-espresso)}}
+.tab[aria-selected="true"]{{color:var(--on-onyx)}}
 
 /* ---------- views ---------- */
 .view[hidden]{{display:none}}
@@ -248,26 +250,26 @@ ul{{margin:0; padding:0; list-style:none}}
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
   box-shadow:var(--shadow); cursor:pointer; text-align:start;
   transition:transform .26s cubic-bezier(.22,1,.36,1), box-shadow .26s ease, border-color .26s ease}}
-.row:hover{{transform:translateY(-2px); box-shadow:var(--shadow-lift); border-color:color-mix(in srgb,var(--tan) 34%,var(--line))}}
+.row:hover{{transform:translateY(-2px); box-shadow:var(--shadow-lift); border-color:color-mix(in srgb,var(--steel) 34%,var(--line))}}
 .row:active{{transform:translateY(0) scale(.988)}}
 .row-ic{{display:grid; place-items:center; width:40px; height:40px; flex:none; border-radius:12px;
-  background:var(--surface-2); color:var(--tan); border:1px solid var(--line-2)}}
+  background:var(--surface-2); color:var(--steel); border:1px solid var(--line-2)}}
 .row-b{{flex:1; min-width:0}}
 .row-t{{display:block; font-family:'Rubik Ar',sans-serif; font-weight:500; font-size:1rem; line-height:1.35}}
 .row-s{{display:block; font-size:.8rem; color:var(--ink-3); margin-top:1px}}
 .row-go{{color:var(--ink-3); transition:transform .26s cubic-bezier(.22,1,.36,1)}}
-.row:hover .row-go{{transform:translateX(-4px); color:var(--tan)}}
+.row:hover .row-go{{transform:translateX(-4px); color:var(--steel)}}
 
-.row.hero-row{{background:var(--espresso); border-color:transparent; padding:17px}}
-.hero-row .row-t,.hero-row .row-go{{color:var(--on-espresso)}}
-.hero-row .row-s{{color:color-mix(in srgb,var(--on-espresso) 62%,transparent)}}
-.hero-row .row-ic{{background:color-mix(in srgb,var(--on-espresso) 13%,transparent); color:var(--on-espresso); border-color:transparent}}
+.row.hero-row{{background:var(--metal); border-color:transparent; padding:17px}}
+.hero-row .row-t,.hero-row .row-go{{color:var(--on-metal)}}
+.hero-row .row-s{{color:color-mix(in srgb,var(--on-metal) 68%,transparent)}}
+.hero-row .row-ic{{background:color-mix(in srgb,var(--on-metal) 12%,transparent); color:var(--on-metal); border-color:color-mix(in srgb,var(--on-metal) 14%,transparent)}}
 .hero-row:hover{{border-color:transparent}}
 
 /* ---------- group label ---------- */
 .glabel{{display:flex; align-items:center; gap:11px; margin:26px 0 13px}}
 .glabel span{{font-size:.74rem; font-weight:600; letter-spacing:.13em; color:var(--ink-3)}}
-.rule{{flex:1; height:1px; background:linear-gradient(to left,var(--foil-a),transparent)}}
+.rule{{flex:1; height:1px; background:linear-gradient(to left,var(--foil-a),var(--foil-b),transparent)}}
 
 /* ---------- branch cards ---------- */
 .bx{{padding:16px 17px; background:var(--surface); border:1px solid var(--line);
@@ -276,7 +278,7 @@ ul{{margin:0; padding:0; list-style:none}}
 .bx:hover{{transform:translateY(-2px); box-shadow:var(--shadow-lift)}}
 .bx-head{{display:flex; align-items:center; justify-content:space-between; gap:10px}}
 .bx-city{{font-size:1.12rem}}
-.bx-rate{{display:inline-flex; align-items:center; gap:4px; font-size:.8rem; color:var(--tan); font-weight:600; font-variant-numeric:tabular-nums}}
+.bx-rate{{display:inline-flex; align-items:center; gap:4px; font-size:.8rem; color:var(--steel); font-weight:600; font-variant-numeric:tabular-nums}}
 .bx-area{{margin-top:3px; font-size:.85rem; color:var(--ink-2); line-height:1.5}}
 .bx-hrs{{display:flex; align-items:center; gap:6px; margin-top:7px; font-size:.8rem; color:var(--ink-3)}}
 .bx-hrs b{{color:var(--ink-2); font-variant-numeric:tabular-nums}}
@@ -284,8 +286,8 @@ ul{{margin:0; padding:0; list-style:none}}
 .bx-act{{display:inline-flex; align-items:center; gap:7px; min-height:40px; padding:0 13px; border-radius:11px;
   background:var(--surface-2); border:1px solid var(--line-2); font-size:.85rem; font-weight:500; color:var(--ink);
   transition:background .22s ease, border-color .22s ease, transform .22s ease}}
-.bx-act .ic{{color:var(--tan)}}
-.bx-act:hover{{background:color-mix(in srgb,var(--tan) 12%,var(--surface-2)); border-color:color-mix(in srgb,var(--tan) 32%,transparent); transform:translateY(-1px)}}
+.bx-act .ic{{color:var(--steel)}}
+.bx-act:hover{{background:color-mix(in srgb,var(--steel) 12%,var(--surface-2)); border-color:color-mix(in srgb,var(--steel) 32%,transparent); transform:translateY(-1px)}}
 
 /* ---------- menu ---------- */
 .mhead{{text-align:center; padding:8px 0 4px}}
@@ -298,10 +300,10 @@ ul{{margin:0; padding:0; list-style:none}}
 .chip{{flex:none; padding:8px 14px; min-height:38px; display:inline-flex; align-items:center; border-radius:999px;
   background:var(--surface); border:1px solid var(--line); font-size:.83rem; font-weight:500; color:var(--ink-2);
   transition:background .24s ease,color .24s ease,border-color .24s ease}}
-.chip.on{{background:var(--espresso); color:var(--on-espresso); border-color:transparent}}
+.chip.on{{background:var(--onyx); color:var(--on-onyx); border-color:transparent}}
 .sec{{margin-top:26px; scroll-margin-top:126px}}
 .sec-h{{display:flex; align-items:baseline; gap:11px; margin-bottom:12px}}
-.sec-k{{font-size:.68rem; font-weight:600; letter-spacing:.14em; color:var(--tan)}}
+.sec-k{{font-size:.68rem; font-weight:600; letter-spacing:.14em; color:var(--steel)}}
 .sec-t{{font-size:1.18rem}}
 .items{{display:flex; flex-direction:column; gap:9px}}
 .it{{display:flex; align-items:center; gap:13px; padding:11px 13px;
@@ -312,12 +314,12 @@ ul{{margin:0; padding:0; list-style:none}}
 .it-blank{{display:block; border:1px solid var(--line-2);
   background:
     var(--logo) no-repeat center/62% ,
-    linear-gradient(135deg,var(--foil-a),var(--foil-b) 45%,var(--foil-c));
-  opacity:.42}}
+    var(--metal);
+  opacity:.5}}
 .it-body{{flex:1; min-width:0}}
 .it-name{{display:block; font-family:'Rubik Ar',sans-serif; font-weight:500; font-size:.99rem; line-height:1.35}}
 .it-cal{{display:block; font-size:.74rem; color:var(--ink-3); margin-top:2px; font-variant-numeric:tabular-nums}}
-.it-price{{display:flex; align-items:baseline; gap:4px; flex:none; color:var(--tan); font-variant-numeric:tabular-nums}}
+.it-price{{display:flex; align-items:baseline; gap:4px; flex:none; color:var(--steel); font-variant-numeric:tabular-nums}}
 .it-price b{{font-family:'Rubik Ar',sans-serif; font-size:1.16rem; font-weight:700; letter-spacing:-.02em}}
 .it-price span{{font-size:.72rem; color:var(--ink-3); font-weight:500}}
 
@@ -329,7 +331,7 @@ ul{{margin:0; padding:0; list-style:none}}
 .foot-mark{{width:96px; aspect-ratio:900/546; margin-inline:auto; opacity:.3;
   -webkit-mask:var(--logo) no-repeat center/contain; mask:var(--logo) no-repeat center/contain; background:var(--ink)}}
 .foot p{{margin-top:10px; font-size:.76rem; color:var(--ink-3)}}
-.foot a{{color:var(--tan)}}
+.foot a{{color:var(--steel)}}
 
 /* ---------- motion ---------- */
 @keyframes viewIn{{from{{opacity:0; transform:translateY(9px)}} to{{opacity:1; transform:none}}}}
@@ -413,11 +415,6 @@ ul{{margin:0; padding:0; list-style:none}}
         <span class="row-b"><span class="row-t">قصدير الكويت</span><span class="row-s" dir="ltr">@qasdeer.kw</span></span>
         {svg('arrow','ic row-go')}
       </a>
-      <a class="row reveal" style="--d:55ms" href="https://www.instagram.com/qasdir_om/" target="_blank" rel="noopener">
-        <span class="row-ic">{svg('instagram')}</span>
-        <span class="row-b"><span class="row-t">قصدير عُمان</span><span class="row-s" dir="ltr">@qasdir_om</span></span>
-        {svg('arrow','ic row-go')}
-      </a>
     </div>
   </div>
 
@@ -429,7 +426,7 @@ ul{{margin:0; padding:0; list-style:none}}
     </div>
     <div class="chips" id="chips">{"".join(chips)}</div>
     {chr(10).join(sections)}
-    <p class="note">الأسعار منقولة من منيو الفرع نفسه — لا من تطبيقات التوصيل، لأن أسعارها أعلى. أطباق بدون صورة معروضة بختم قصدير.</p>
+    <p class="note">الأسعار منقولة من منيو الفرع نفسه — لا من تطبيقات التوصيل، لأن أسعارها أعلى. الصور من مقاطع قصدير على تيك توك وانستقرام، والأطباق اللي ما لها صورة معروضة بختم قصدير.</p>
   </div>
 
   <footer class="foot">
