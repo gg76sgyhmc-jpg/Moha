@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 417" role="img" aria-label="شعار إعمار الشعلة">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C6B494"/><stop offset="1" stop-color="#93794E"/>
+  </linearGradient></defs>
+  <rect x="119" y="287" width="12" height="121" fill="url(#lg)"/>
+  <rect x="153" y="214" width="13" height="194" fill="url(#lg)"/>
+  <rect x="187" y="128" width="13" height="280" fill="url(#lg)"/>
+  <rect x="223" y="0" width="13" height="408" fill="url(#lg)"/>
+  <rect x="260" y="75" width="12" height="333" fill="url(#lg)"/>
+  <rect x="296" y="178" width="12" height="230" fill="url(#lg)"/>
+  <rect x="329" y="140" width="13" height="268" fill="url(#lg)"/>
+  <rect x="0" y="408" width="460" height="9" fill="url(#lg)"/>
+</svg>
