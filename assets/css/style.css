@@ -87,9 +87,51 @@
   --font-body: "Readex Pro", "Segoe UI", "Noto Sans Arabic", system-ui, sans-serif;
 
   --header-h: 76px;
+  color-scheme: light;
 }
 
-[data-theme="dark"] {
+/* ── الوضع الليلي ───────────────────────────────────────────────────
+   ثلاث حالات: اختيار صريح للنهاري، أو إعداد النظام، أو اختيار صريح
+   لليلي. القيم مكرّرة عمداً لأن CSS لا يسمح بدمج قاعدة داخل @media
+   مع أخرى خارجها — وبهذا يعمل الوضع الليلي حتى دون JavaScript.      */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  --bg:         #0D0C0A;
+  --bg-2:       #131110;
+  --surface:    #1A1713;
+  --surface-2:  #211D18;
+  --ink:        #F7F3EA;
+  --body:       #C6BDAE;
+  --muted:      #948B7C;
+  --gold-text:  #E0C179;
+  --line:       #302A22;
+  --line-soft:  #262119;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 6px 16px -8px rgba(0,0,0,.6);
+  --shadow-2: 0 2px 6px rgba(0,0,0,.45), 0 18px 44px -20px rgba(0,0,0,.75);
+  --shadow-3: 0 4px 10px rgba(0,0,0,.5), 0 40px 90px -36px rgba(0,0,0,.9);
+  --glow: rgba(201,162,74,.22);
+  --ring: rgba(232,200,119,.6);
+
+  --sky-1: #1E1A15;  --sky-2: #15120E;  --sky-3: #0F0D0A;
+  --bld-1: #262019;  --bld-2: #1A1611;  --bld-mid: #221D17;
+  --bld-far: #322B22;
+  --win: #6D5C38;
+  --ground: #191510; --ground-2: #1C1813;
+  --palm: #4A4030;   --road: #2A241C;
+  --arch-bg: #171410;
+
+  --plot-bg: #16130F; --plot-line: #241E17; --plot-block: #262019;
+  --plot-road: #2E271D; --plot-ink: #17130A; --plot-label: #8B7E68;
+
+  --map-bg: #15120E;  --map-line: #221D16;  --map-block: #221D17;
+  --map-green: #2A2E1F; --map-road: #29231B; --map-road-line: #4A4030;
+  --map-label: #8B8171; --map-label-strong: #EFE7D8;
+}
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
   --bg:         #0D0C0A;
   --bg-2:       #131110;
   --surface:    #1A1713;
