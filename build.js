@@ -42,8 +42,9 @@ fs.writeFileSync(path.join(root, 'dist/index.html'), out, 'utf8');
 const head = out.slice(out.indexOf('<head>') + 6, out.indexOf('</head>'));
 const body = out.slice(out.indexOf('<body>') + 6, out.lastIndexOf('</body>'));
 
+/* اسم أقصر داخل معرض الـ Artifacts */
 const artifact =
-  head.match(/<title>[\s\S]*?<\/title>/)[0] + '\n' +
+  '<title>مكتب عقار اليوم للعقارات</title>' + '\n' +
   head.match(/<link rel="preconnect"[\s\S]*?display=swap">/)[0] + '\n' +
   head.match(/<style>[\s\S]*?<\/style>/)[0] + '\n' +
   '<div dir="rtl" lang="ar" class="aqar-root">\n' + body + '\n</div>';
