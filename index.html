@@ -321,6 +321,7 @@ body{
 }
 .btn svg{ width:22px; height:22px; }
 .btn__sub{ font-family:"Readex Pro",sans-serif; font-weight:300; font-size:.6875rem; opacity:.75; letter-spacing:.01em; }
+.btn__sub.num{ letter-spacing:.06em; }
 .btn--solid{ background:var(--clay); color:var(--on-clay); box-shadow:var(--shadow-clay); }
 .btn--solid:hover{ background:var(--clay-deep); }
 .btn--ghost{ background:var(--surface); color:var(--ink); border-color:var(--line); box-shadow:var(--shadow-sm); }
@@ -673,7 +674,7 @@ body{
      مثال السعودية:  phone: "9665XXXXXXXX"
      ═══════════════════════════════════════════════════════════════ */
   const CONFIG = {
-    phone: "",
+    phone: "966554667399",          // 0554667399
     whatsappMessage: "السلام عليكم، أبغى أستفسر عن وبر كافيه"
   };
 
@@ -853,7 +854,14 @@ body{
      ═══════════════════════════════════════════════════════════════ */
   const digits   = String(CONFIG.phone).replace(/\D/g, "");
   const hasPhone = digits.length >= 9;
-  const pretty   = hasPhone ? "+" + digits : "";
+
+  /* يُعرض محلياً (0554667399 ← 055 466 7399) لأنه الشكل المألوف هنا،
+     بينما تبقى الروابط بالصيغة الدولية */
+  const ltr    = (t) => "\u2066" + t + "\u2069";   /* LRI … PDI */
+  const local  = digits.startsWith("966") ? "0" + digits.slice(3) : digits;
+  const pretty = hasPhone
+    ? local.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1\u00A0$2\u00A0$3")
+    : "";
 
   const wa   = $('[data-action="whatsapp"]');
   const call = $('[data-action="call"]');
@@ -863,7 +871,9 @@ body{
     wa.target = "_blank";
     wa.rel    = "noopener noreferrer";
     call.href = "tel:+" + digits;
-    call.querySelector(".btn__sub").textContent = pretty;
+    const sub = call.querySelector(".btn__sub");
+    sub.classList.add("num");        /* يعزل الرقم في اتجاه LTR */
+    sub.textContent = pretty;
   } else {
     [wa, call].forEach(el => {
       el.setAttribute("aria-disabled", "true");
@@ -883,9 +893,9 @@ body{
     holdTimer = setTimeout(async () => {
       held = true;
       try {
-        await navigator.clipboard.writeText(pretty);
-        say("تم نسخ الرقم " + pretty);
-      } catch (_) { say("الرقم: " + pretty); }
+        await navigator.clipboard.writeText("+" + digits);
+        say("تم نسخ الرقم " + ltr(pretty));
+      } catch (_) { say("الرقم: " + ltr(pretty)); }
       buzz(14);
     }, 550);
   };
